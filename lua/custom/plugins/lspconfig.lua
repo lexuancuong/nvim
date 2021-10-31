@@ -22,9 +22,8 @@ M.setup_lsp = function(attach, capabilities)
       on_attach = function(client, bufnr)
          client.resolved_capabilities.document_formatting = false
          vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>fm", "<cmd>lua vim.lsp.buf.formatting()<CR>", {})
-
-        vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()") end,
-
+         vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", {})
+         vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()") end,
   }
 
 end
