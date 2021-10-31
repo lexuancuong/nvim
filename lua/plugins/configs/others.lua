@@ -12,11 +12,8 @@ M.autopairs = function()
    autopairs.setup()
 
    -- not needed if you disable cmp, the above var related to cmp tooo! override default config for autopairs
-
-   autopairs_completion.setup {
-      map_complete = true, -- insert () func completion
-      map_cr = true,
-   }
+   local cmp = require "cmp"
+   cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 end
 
 M.better_escape = function()

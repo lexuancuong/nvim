@@ -126,7 +126,7 @@ return packer.startup(function()
    }
 
    use {
-      "ray-x/lsp_signature.nvim",
+      "ray-x/lsp_signature.nvim", -- language server programing
       disable = not status.lspsignature,
       after = "nvim-lspconfig",
       config = override_req("signature", "(plugins.configs.others).signature()"),
