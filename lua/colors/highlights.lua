@@ -19,7 +19,9 @@ local purple = colors.purple
 local red = colors.red
 local white = colors.white
 local yellow = colors.yellow
-local one_bg3 = colors.one_bg3
+local yellow_light = "#fff"
+local red_light = "#802000"
+local white_light = "#bfbfbf"
 
 local ui = require("core.utils").load_config().ui
 
@@ -52,10 +54,10 @@ else
    fg("Comment", grey_fg)
 end
 
--- Disable cusror line
-cmd "hi clear CursorLine"
+fg("MsgArea", "#ff9966")  -- for Command line text in vim
+-- Disable cusror line in insert mode
 -- Line number
-fg("cursorlinenr", white)
+fg("cursorlinenr", yellow)
 
 -- same it bg, so it doesn't appear
 fg("EndOfBuffer", black)
@@ -77,7 +79,7 @@ fg("CmpItemMenu", white)
 -- misc
 
 -- inactive statuslines as thin lines
-fg("StatusLineNC", one_bg3 .. " gui=underline")
+fg("StatusLineNC", one_bg2 .. " gui=bold")
 
 fg("LineNr", grey)
 fg("NvimInternalError", red)
@@ -111,10 +113,12 @@ fg("IndentBlanklineChar", line)
 -- [[ LspDiagnostics
 
 -- Errors
-fg("LspDiagnosticsSignError", red)
-fg("LspDiagnosticsSignWarning", yellow)
-fg("LspDiagnosticsVirtualTextError", red)
-fg("LspDiagnosticsVirtualTextWarning", yellow)
+fg("LspDiagnosticsSignError", blue)
+fg("LspDiagnosticsVirtualTextError", blue)
+
+-- Warning
+fg("LspDiagnosticsSignWarning", yellow_light)
+fg("LspDiagnosticsVirtualTextWarning", yellow_light)
 
 -- Info
 fg("LspDiagnosticsSignInformation", green)
@@ -136,7 +140,7 @@ fg("NvimTreeIndentMarker", one_bg2)
 bg("NvimTreeNormal", darker_black)
 bg("NvimTreeNormalNC", darker_black)
 fg("NvimTreeOpenedFolderName", blue)
-fg("NvimTreeRootFolder", red .. " gui=underline") -- enable underline for root folder in nvim tree
+fg("NvimTreeRootFolder", red .. " gui=bold") -- enable underline for root folder in nvim tree
 fg_bg("NvimTreeStatuslineNc", darker_black, darker_black)
 fg("NvimTreeVertSplit", darker_black)
 bg("NvimTreeVertSplit", darker_black)
@@ -151,7 +155,7 @@ if ui.transparency then
 end
 
 -- Telescope
-fg("TelescopeBorder", one_bg)
-fg_bg("TelescopePreviewTitle", green, one_bg)
-fg_bg("TelescopePromptTitle", blue, one_bg)
-fg_bg("TelescopeResultsTitle", red, one_bg)
+fg("TelescopeBorder", line)
+fg("TelescopePreviewBorder", grey)
+fg("TelescopePromptBorder", line)
+fg("TelescopeResultsBorder", line)

@@ -61,14 +61,14 @@ M.plugins = {
    status = {
       blankline = true, -- show code scope with symbols
       bufferline = true, -- list open buffers up the top, easy switching too
-      colorizer = false, -- color RGB, HEX, CSS, NAME color codes
+      colorizer = true, -- color RGB, HEX, CSS, NAME color codes
       comment = true, -- easily (un)comment code, language aware
       dashboard = false, -- NeoVim 'home screen' on open
       esc_insertmode = true, -- map to <ESC> with no lag
       feline = true, -- statusline
       gitsigns = true, -- gitsigns in statusline
       lspsignature = true, -- lsp enhancements
-      telescope_media = false, -- media previews within telescope finders
+      telescope_media = true, -- media previews within telescope finders
       vim_matchup = true, -- % operator enhancements
       cmp = true,
       nvimtree = true,
@@ -79,7 +79,7 @@ M.plugins = {
          setup_lspconf = "custom.plugins.lspconfig", -- path of file containing setups of different lsps
       },
       nvimtree = {
-         enable_git = 0,
+         enable_git = 1,
       },
       luasnip = {
          snippet_path = {},
@@ -111,7 +111,7 @@ M.mappings = {
    -- close current focused buffer
    close_buffer = "<leader>x",
    copy_whole_file = "<C-a>", -- copy all contents of the current buffer
-   line_number_toggle = "<leader>n", -- show or hide line number
+   line_number_toggle = "<leader>l", -- show or hide line number
    new_buffer = "<S-t>", -- open a new buffer
    new_tab = "<C-t>b", -- open a new vim tab
    save_file = "<C-s>", -- save file using :w
@@ -154,8 +154,8 @@ M.mappings = {
 M.mappings.plugins = {
    -- list open buffers up the top, easy switching too
    bufferline = {
-      next_buffer = "<TAB>", -- next buffer
-      prev_buffer = "<S-Tab>", -- previous buffer
+      next_buffer = "<leader>n", -- next buffer
+      prev_buffer = "<leader>p", -- previous buffer
    },
    -- easily (un)comment code, language aware
    comment = {
@@ -171,7 +171,7 @@ M.mappings.plugins = {
    },
    -- map to <ESC> with no lag
    better_escape = { -- <ESC> will still work
-      esc_insertmode = { "jk" }, -- multiple mappings allowed
+      esc_insertmode = { "jj" }, -- multiple mappings allowed
    },
    -- file explorer/tree
    nvimtree = {
@@ -180,14 +180,15 @@ M.mappings.plugins = {
    },
    -- multitool for finding & picking things
    telescope = {
-      buffers = "<leader>fb",
-      find_files = "<leader>ff",
-      find_hiddenfiles = "<leader>fa",
-      git_commits = "<leader>cm",
-      git_status = "<leader>gt",
+      buffers = "<leader>fb", -- view all of current buffers
+      find_files = "<leader>ff", -- find files by name with fzf
+      find_hiddenfiles = "<leader>fa", -- find hidden files
+      git_commits = "<leader>cm", -- view all commits of current branch
+      git_status = "<leader>gt", -- view all files changes
       help_tags = "<leader>fh",
-      live_grep = "<leader>fw",
+      live_grep = "<leader>fw", -- find a word by using rip grep
       oldfiles = "<leader>fo",
+      resume = "<leader>r", -- resume previous popup
       themes = "<leader>th", -- NvChad theme picker
       -- media previews within telescope finders
       telescope_media = {

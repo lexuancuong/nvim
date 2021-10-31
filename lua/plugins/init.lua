@@ -111,7 +111,6 @@ return packer.startup(function()
       end,
    }
 
-   -- lsp stuff
 
    use {
       "neovim/nvim-lspconfig",
