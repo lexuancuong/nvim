@@ -24,7 +24,7 @@ bufferline.setup {
       show_buffer_close_icons = true,
       separator_style = "thin",
       always_show_bufferline = true,
-      diagnostics = false, -- "or nvim_lsp"
+      diagnostics = false,
       custom_filter = function(buf_number)
          -- Func to filter out our managed/persistent split terms
          local present_type, type = pcall(function()

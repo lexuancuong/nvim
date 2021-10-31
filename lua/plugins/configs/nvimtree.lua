@@ -12,6 +12,7 @@ vim.o.termguicolors = true
 g.nvim_tree_add_trailing = 0 -- append a trailing slash to folder names
 g.nvim_tree_git_hl = git_status
 g.nvim_tree_gitignore = 0
+g.nvim_tree_hide_dotfiles = 0
 g.nvim_tree_highlight_opened_files = 0
 g.nvim_tree_indent_markers = 1
 g.nvim_tree_ignore = { ".git", "node_modules", ".cache" }
@@ -42,9 +43,9 @@ g.nvim_tree_icons = {
       -- arrow_open = "",
       -- arrow_closed = "",
       default = "",
-      empty = "", -- 
-      empty_open = "",
-      open = "",
+      empty = "", -- 
+      empty_open = "", -- 
+      open = "",
       symlink = "",
       symlink_open = "",
    },
@@ -59,9 +60,6 @@ nvimtree.setup {
          warning = "",
          error = "",
       },
-   },
-   filters = {
-      dotfiles = false,
    },
    disable_netrw = true,
    hijack_netrw = true,

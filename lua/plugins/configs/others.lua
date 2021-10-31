@@ -12,8 +12,11 @@ M.autopairs = function()
    autopairs.setup()
 
    -- not needed if you disable cmp, the above var related to cmp tooo! override default config for autopairs
-   local cmp = require "cmp"
-   cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+   autopairs_completion.setup {
+      map_complete = true, -- insert () func completion
+      map_cr = true,
+   }
 end
 
 M.better_escape = function()
@@ -65,7 +68,10 @@ end
 M.comment = function()
    local present, nvim_comment = pcall(require, "nvim_comment")
    if present then
-      nvim_comment.setup()
+      nvim_comment.setup({
+        comment_empty=false,
+        marker_padding = true,
+      })
    end
 end
 
@@ -79,9 +85,7 @@ M.luasnip = function()
       history = true,
       updateevents = "TextChanged,TextChangedI",
    }
-
-   require("luasnip/loaders/from_vscode").load { paths = chadrc_config.plugins.options.luasnip.snippet_path }
-   require("luasnip/loaders/from_vscode").load()
+   require("luasnip/loaders/from_vscode").load { path = { chadrc_config.plugins.options.luasnip.snippet_path } }
 end
 
 M.signature = function()
