@@ -63,12 +63,15 @@ lspSymbol("Hint", "")
 lspSymbol("Warning", "")
 
 local lsp_publish_diagnostics_options = overrides.get("publish_diagnostics", {
-   virtual_text = {
-      prefix = "",
-      spacing = 0,
-   },
+   -- virtual_text = {
+   --    prefix = "",
+   --    spacing = 4,
+   -- },
+   --
+   virtual_text = false,
+
    signs = true,
-   underline = true,
+   underline = false,
    update_in_insert = false, -- update diagnostics insert mode
 })
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(

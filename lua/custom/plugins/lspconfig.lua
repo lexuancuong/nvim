@@ -23,7 +23,9 @@ M.setup_lsp = function(attach, capabilities)
          client.resolved_capabilities.document_formatting = false
          vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>fm", "<cmd>lua vim.lsp.buf.formatting()<CR>", {})
          vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", {})
-         vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()") end,
+         vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()") 
+         vim.api.nvim_buf_set_keymap(bufnr, "n", "ge", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", {})
+      end,
   }
 
 end
