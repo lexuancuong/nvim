@@ -157,6 +157,13 @@ return packer.startup(function()
       end,
    }
 
+   -- markdown supporting
+    use {
+        'iamcco/markdown-preview.nvim',
+        run = function() vim.fn['mkdp#util#install']() end,
+        ft = {'markdown'}
+    }
+
    -- load luasnips + cmp related in insert mode only
 
    use {
