@@ -53,7 +53,7 @@ bufferline.setup {
 
       -- buffers
       buffer_selected = {
-         guifg = colors.white,
+         guifg = colors.red,
          guibg = colors.black,
          gui = "bold",
       },
