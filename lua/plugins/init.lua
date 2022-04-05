@@ -110,6 +110,7 @@ return packer.startup(function()
          require("core.utils").packer_lazy_load "gitsigns.nvim"
       end,
    }
+  use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
 
 
    use {
