@@ -119,7 +119,7 @@ M.plugins = {
          lazy_load = true,
       },
       lspconfig = {
-         setup_lspconf = "", -- path of file containing setups of different lsps
+         setup_lspconf = "custom.plugins.lspconfig", -- path of file containing setups of different lsps
       },
       nvimtree = {
          -- packerCompile required after changing lazy_load
@@ -250,7 +250,7 @@ M.mappings.plugins = {
 
    nvimtree = {
       toggle = "<C-n>",
-      focus = "<leader>e",
+      focus = "<leader>t",
    },
 
    telescope = {
@@ -258,9 +258,10 @@ M.mappings.plugins = {
       find_files = "<leader>ff",
       find_hiddenfiles = "<leader>fa",
       git_commits = "<leader>cm",
-      git_status = "<leader>gt",
+      git_status = "<leader>gs",
       help_tags = "<leader>fh",
       live_grep = "<leader>fw",
+      resume = "<leader>r", -- resume previous popup
       oldfiles = "<leader>fo",
       themes = "<leader>th", -- NvChad theme picker
    },
