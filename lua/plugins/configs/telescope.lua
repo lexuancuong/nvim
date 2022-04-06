@@ -1,10 +1,9 @@
 local present, telescope = pcall(require, "telescope")
-
 if not present then
    return
 end
 
-local default = {
+telescope.setup {
    defaults = {
       vimgrep_arguments = {
          "rg",
@@ -31,14 +30,14 @@ local default = {
          vertical = {
             mirror = false,
          },
-         width = 0.87,
-         height = 0.80,
+         width = 0.9,
+         height = 0.88,
          preview_cutoff = 120,
       },
       file_sorter = require("telescope.sorters").get_fuzzy_file,
       file_ignore_patterns = { "node_modules" },
       generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-      path_display = { "truncate" },
+      path_display = { "absolute" },
       winblend = 0,
       border = {},
       borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
@@ -51,23 +50,31 @@ local default = {
       -- Developer configurations: Not meant for general override
       buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
    },
+   extensions = {
+      fzf = {
+         fuzzy = true, -- false will only do exact matching
+         override_generic_sorter = false, -- override the generic sorter
+         override_file_sorter = true, -- override the file sorter
+         case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+         -- the default case_mode is "smart_case"
+      },
+      media_files = {
+         filetypes = { "png", "webp", "jpg", "jpeg" },
+         find_cmd = "rg", -- find command (defaults to `fd`)
+      },
+   },
 }
 
-local M = {}
-M.setup = function(override_flag)
-   if override_flag then
-      default = require("core.utils").tbl_override_req("telescope", default)
-   end
+local extensions = { "themes", "terms", "fzf" }
+local packer_repos = [["extensions", "telescope-fzf-native.nvim"]]
 
-   telescope.setup(default)
-
-   local extensions = { "themes", "terms" }
-
-   pcall(function()
-      for _, ext in ipairs(extensions) do
-         telescope.load_extension(ext)
-      end
-   end)
+if vim.fn.executable "ueberzug" == 1 then
+   table.insert(extensions, "media_files")
+   packer_repos = packer_repos .. ', "telescope-media-files.nvim"'
 end
 
-return M
+pcall(function()
+   for _, ext in ipairs(extensions) do
+      telescope.load_extension(ext)
+   end
+end)
