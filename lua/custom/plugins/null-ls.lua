@@ -1,25 +1,20 @@
-local ok, null_ls = pcall(require, "null-ls")
-
-if not ok then
-   return
-end
-
+local null_ls = require "null-ls"
 local b = null_ls.builtins
 
-local sources = { 
-  null_ls.builtins.formatting.black,
-  null_ls.builtins.formatting.isort,
-  null_ls.builtins.formatting.autopep8,
+local sources = {
+  b.formatting.black,
+  b.formatting.isort,
+  b.formatting.autopep8,
+  b.completion.spell,
 }
 
 local M = {}
 
-
-M.setup = function(on_attach)
-   null_ls.config {
+M.setup = function()
+   null_ls.setup {
+      debug = true,
       sources = sources,
    }
-   require("lspconfig")["null-ls"].setup { on_attach = on_attach }
 end
 
 return M

@@ -39,7 +39,7 @@ end
 -- Disable cursor line
 cmd "hi clear CursorLine"
 -- Line number
-fg("cursorlinenr", white)
+fg("cursorlinenr", yellow)
 
 -- same it bg, so it doesn't appear
 fg("EndOfBuffer", black)

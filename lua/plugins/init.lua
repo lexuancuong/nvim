@@ -11,6 +11,7 @@ local plugins = {
    { "nvim-lua/plenary.nvim" },
    { "lewis6991/impatient.nvim" },
    { "nathom/filetype.nvim" },
+   { "williamboman/nvim-lsp-installer" },
 
    {
       "wbthomason/packer.nvim",
@@ -101,6 +102,14 @@ local plugins = {
          end, 0)
       end,
       config = override_req("lspconfig", "plugins.configs.lspconfig"),
+   },
+
+   {
+      "jose-elias-alvarez/null-ls.nvim",
+      after = "nvim-lspconfig",
+      config = function()
+         require("custom.plugins.null-ls").setup()
+      end,
    },
 
    {

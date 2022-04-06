@@ -161,7 +161,7 @@ M.mappings = {
       cheatsheet = "<leader>ch",
       close_buffer = "<leader>x",
       cp_whole_file = "<C-c>", -- copy all contents of current buffer
-      lineNR_toggle = "<leader>n", -- toggle line number
+      lineNR_toggle = "<leader>l", -- toggle line number
       lineNR_rel_toggle = "<leader>rn",
       update_nvchad = "<leader>uu",
       new_buffer = "<S-t>",
@@ -216,8 +216,8 @@ M.mappings = {
 -- To disable a mapping, equate the variable to "" or false or nil in chadrc
 M.mappings.plugins = {
    bufferline = {
-      next_buffer = "<TAB>",
-      prev_buffer = "<S-Tab>",
+      next_buffer = "<leader>n",
+      prev_buffer = "<leader>p",
    },
    comment = {
       toggle = "<leader>/",
