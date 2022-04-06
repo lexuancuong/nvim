@@ -1,97 +1,120 @@
-local plugin_settings = require("core.utils").load_config().plugins
-local present, packer = pcall(require, plugin_settings.options.packer.init_file)
+local present, packer = pcall(require, "plugins.packerInit")
 
 if not present then
    return false
 end
 
-local override_req = require("core.utils").override_req
+local use = packer.use
 
-local plugins = {
-   { "nvim-lua/plenary.nvim" },
-   { "lewis6991/impatient.nvim" },
-   { "nathom/filetype.nvim" },
+return packer.startup(function()
+   local status = require("core.utils").load_config().plugins.status
 
-   {
+   -- FUNCTION: override_req, use `chadrc` plugin config override if present
+   -- name = name inside `default_config` / `chadrc`
+   -- default_req = run this if 'name' does not exist in `default_config` / `chadrc`
+   -- if override or default_req start with `(`, then strip that and assume override calls a function, not a whole file
+   local override_req = function(name, default_req)
+      local override = require("core.utils").load_config().plugins.default_plugin_config_replace[name]
+      local result
+
+      if override == nil then
+         result = default_req
+      else
+         result = override
+      end
+
+      if string.match(result, "^%(") then
+         result = result:sub(2)
+         result = result:gsub("%)%.", "').", 1)
+         return "require('" .. result
+      else
+         return "require('" .. result .. "')"
+      end
+   end
+
+   -- this is arranged on the basis of when a plugin starts
+
+   -- this is the nvchad core repo containing utilities for some features like theme swticher, no need to lazy load
+   use {
+      "Nvchad/extensions",
+   }
+
+   use {
+      "nvim-lua/plenary.nvim",
+   }
+
+   use {
       "wbthomason/packer.nvim",
       event = "VimEnter",
-   },
+   }
 
-   {
-      "NvChad/extensions",
-      config = function ()
-         vim.schedule_wrap(require("nvchad.terminal").init())
-      end
-   },
-
-   {
+   use {
       "NvChad/nvim-base16.lua",
       after = "packer.nvim",
       config = function()
          require("colors").init()
       end,
-   },
+   }
 
-   {
+   use {
       "kyazdani42/nvim-web-devicons",
       after = "nvim-base16.lua",
-      config = override_req("nvim_web_devicons", "plugins.configs.icons", "setup"),
-   },
+      config = override_req("nvim_web_devicons", "plugins.configs.icons"),
+   }
 
-   {
-      "feline-nvim/feline.nvim",
-      disable = not plugin_settings.status.feline,
+   use {
+      "famiu/feline.nvim",
+      disable = not status.feline,
       after = "nvim-web-devicons",
-      config = override_req("feline", "plugins.configs.statusline", "setup"),
-   },
+      config = override_req("feline", "plugins.configs.statusline"),
+   }
 
-   {
+   use {
       "akinsho/bufferline.nvim",
-      disable = not plugin_settings.status.bufferline,
+      disable = not status.bufferline,
       after = "nvim-web-devicons",
-      config = override_req("bufferline", "plugins.configs.bufferline", "setup"),
+      config = override_req("bufferline", "plugins.configs.bufferline"),
       setup = function()
          require("core.mappings").bufferline()
       end,
-   },
+   }
 
-   {
+   use {
       "lukas-reineke/indent-blankline.nvim",
-      disable = not plugin_settings.status.blankline,
+      disable = not status.blankline,
       event = "BufRead",
-      config = override_req("indent_blankline", "plugins.configs.others", "blankline"),
-   },
+      config = override_req("indent_blankline", "(plugins.configs.others).blankline()"),
+   }
 
-   {
-      "NvChad/nvim-colorizer.lua",
-      disable = not plugin_settings.status.colorizer,
+   use {
+      "norcalli/nvim-colorizer.lua",
+      disable = not status.colorizer,
       event = "BufRead",
-      config = override_req("nvim_colorizer", "plugins.configs.others", "colorizer"),
-   },
+      config = override_req("nvim_colorizer", "(plugins.configs.others).colorizer()"),
+   }
 
-   {
+   use {
       "nvim-treesitter/nvim-treesitter",
-      event = { "BufRead", "BufNewFile" },
-      config = override_req("nvim_treesitter", "plugins.configs.treesitter", "setup"),
-      run = ":TSUpdate",
-   },
+      branch = "0.5-compat",
+      event = "BufRead",
+      config = override_req("nvim_treesitter", "plugins.configs.treesitter"),
+   }
 
    -- git stuff
-   {
+   use {
       "lewis6991/gitsigns.nvim",
-      disable = not plugin_settings.status.gitsigns,
+      disable = not status.gitsigns,
       opt = true,
-      config = override_req("gitsigns", "plugins.configs.others", "gitsigns"),
+      config = override_req("gitsigns", "plugins.configs.gitsigns"),
       setup = function()
          require("core.utils").packer_lazy_load "gitsigns.nvim"
       end,
-   },
+   }
+  use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
 
-   -- lsp stuff
 
-   {
+   use {
       "neovim/nvim-lspconfig",
-      module = "lspconfig",
       opt = true,
       setup = function()
          require("core.utils").packer_lazy_load "nvim-lspconfig"
@@ -101,143 +124,159 @@ local plugins = {
          end, 0)
       end,
       config = override_req("lspconfig", "plugins.configs.lspconfig"),
-   },
+   }
 
-   {
-      "ray-x/lsp_signature.nvim",
-      disable = not plugin_settings.status.lspsignature,
+   use {
+      "ray-x/lsp_signature.nvim", -- language server programing
+      disable = not status.lspsignature,
       after = "nvim-lspconfig",
-      config = override_req("signature", "plugins.configs.others", "signature"),
-   },
+      config = override_req("signature", "(plugins.configs.others).signature()"),
+   }
 
-   {
+   use {
       "andymass/vim-matchup",
-      disable = not plugin_settings.status.vim_matchup,
+      disable = not status.vim_matchup,
       opt = true,
       setup = function()
          require("core.utils").packer_lazy_load "vim-matchup"
       end,
-   },
+   }
 
-   {
+   use {
       "max397574/better-escape.nvim",
-      disable = not plugin_settings.status.better_escape,
-      event = "InsertCharPre",
-      config = override_req("better_escape", "plugins.configs.others", "better_escape"),
-   },
+      disable = not status.esc_insertmode,
+      event = "InsertEnter",
+      config = override_req("better_escape", "(plugins.configs.others).better_escape()"),
+   }
+
+   -- linter
+   use {
+      "jose-elias-alvarez/null-ls.nvim",
+      after = "nvim-lspconfig",
+      config = function()
+         require("custom.plugins.null-ls").setup()
+      end,
+   }
+
+   -- markdown supporting
+    use {
+        'iamcco/markdown-preview.nvim',
+        run = function() vim.fn['mkdp#util#install']() end,
+        ft = {'markdown'}
+    }
 
    -- load luasnips + cmp related in insert mode only
 
-   {
+   use {
       "rafamadriz/friendly-snippets",
-      module = "cmp_nvim_lsp",
-      disable = not plugin_settings.status.cmp,
+      disable = not status.cmp,
       event = "InsertEnter",
-   },
+   }
 
-   {
+   use {
       "hrsh7th/nvim-cmp",
-      disable = not plugin_settings.status.cmp,
+      disable = not status.cmp,
       after = "friendly-snippets",
-      config = override_req("nvim_cmp", "plugins.configs.cmp", "setup"),
-   },
+      config = override_req("nvim_cmp", "plugins.configs.cmp"),
+   }
 
-   {
+   use {
       "L3MON4D3/LuaSnip",
-      disable = not plugin_settings.status.cmp,
+      disable = not status.cmp,
       wants = "friendly-snippets",
       after = "nvim-cmp",
-      config = override_req("luasnip", "plugins.configs.others", "luasnip"),
-   },
+      config = override_req("luasnip", "(plugins.configs.others).luasnip()"),
+   }
 
-   {
+   use {
       "saadparwaiz1/cmp_luasnip",
-      disable = not plugin_settings.status.cmp,
-      after = plugin_settings.options.cmp.lazy_load and "LuaSnip",
-   },
+      disable = not status.cmp,
+      after = "LuaSnip",
+   }
 
-   {
+   use {
       "hrsh7th/cmp-nvim-lua",
-      disable = not plugin_settings.status.cmp,
+      disable = not status.cmp,
       after = "cmp_luasnip",
-   },
+   }
 
-   {
+   use {
       "hrsh7th/cmp-nvim-lsp",
-      disable = not plugin_settings.status.cmp,
+      disable = not status.cmp,
       after = "cmp-nvim-lua",
-   },
+   }
 
-   {
+   use {
       "hrsh7th/cmp-buffer",
-      disable = not plugin_settings.status.cmp,
+      disable = not status.cmp,
       after = "cmp-nvim-lsp",
-   },
+   }
 
-   {
+   use {
       "hrsh7th/cmp-path",
-      disable = not plugin_settings.status.cmp,
+      disable = not status.cmp,
       after = "cmp-buffer",
-   },
-
+   }
    -- misc plugins
-   {
+   use {
       "windwp/nvim-autopairs",
-      disable = not plugin_settings.status.autopairs,
-      after = plugin_settings.options.autopairs.loadAfter,
-      config = override_req("nvim_autopairs", "plugins.configs.others", "autopairs"),
-   },
+      disable = not status.autopairs,
+      after = "nvim-cmp",
+      config = override_req("nvim_autopairs", "(plugins.configs.others).autopairs()"),
+   }
 
-   {
-      disable = not plugin_settings.status.alpha,
-      "goolord/alpha-nvim",
-      config = override_req("alpha", "plugins.configs.alpha", "setup"),
-   },
+   use {
+      "glepnir/dashboard-nvim",
+      disable = not status.dashboard,
+      config = override_req("dashboard", "plugins.configs.dashboard"),
+      setup = function()
+         require("core.mappings").dashboard()
+      end,
+   }
 
-   {
-      "numToStr/Comment.nvim",
-      disable = not plugin_settings.status.comment,
-      module = "Comment",
-      keys = { "gcc" },
-      config = override_req("nvim_comment", "plugins.configs.others", "comment"),
+   use {
+      "terrortylor/nvim-comment",
+      disable = not status.comment,
+      cmd = "CommentToggle",
+      config = override_req("nvim_comment", "(plugins.configs.others).comment()"),
       setup = function()
          require("core.mappings").comment()
       end,
-   },
+   }
 
    -- file managing , picker etc
-   {
+   use {
       "kyazdani42/nvim-tree.lua",
-      disable = not plugin_settings.status.nvimtree,
-      -- only set "after" if lazy load is disabled and vice versa for "cmd"
-      after = not plugin_settings.options.nvimtree.lazy_load and "nvim-web-devicons",
-      cmd = plugin_settings.options.nvimtree.lazy_load and { "NvimTreeToggle", "NvimTreeFocus" },
-      config = override_req("nvim_tree", "plugins.configs.nvimtree", "setup"),
+      disable = not status.nvimtree,
+      cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+      config = override_req("nvim_tree", "plugins.configs.nvimtree"),
       setup = function()
          require("core.mappings").nvimtree()
       end,
-   },
+   }
 
-   {
+   use {
       "nvim-telescope/telescope.nvim",
       module = "telescope",
       cmd = "Telescope",
-      config = override_req("telescope", "plugins.configs.telescope", "setup"),
+      requires = {
+         {
+            "nvim-telescope/telescope-fzf-native.nvim",
+            run = "make",
+         },
+         {
+            "nvim-telescope/telescope-media-files.nvim",
+            disable = not status.telescope_media,
+            setup = function()
+               require("core.mappings").telescope_media()
+            end,
+         },
+      },
+      config = override_req("telescope", "plugins.configs.telescope"),
       setup = function()
          require("core.mappings").telescope()
       end,
-   },
-}
+   }
 
---label plugins for operational assistance
-plugins = require("core.utils").label_plugins(plugins)
---remove plugins specified in chadrc
-plugins = require("core.utils").remove_default_plugins(plugins)
---add plugins specified in chadrc
-plugins = require("core.utils").add_user_plugins(plugins)
-
-return packer.startup(function(use)
-   for _, v in pairs(plugins) do
-      use(v)
-   end
+   require("core.hooks").run("install_plugins", use)
 end)

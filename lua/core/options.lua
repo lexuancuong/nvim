@@ -1,6 +1,9 @@
 local opt = vim.opt
 local g = vim.g
 
+-- export user config as a global varibale
+g.nvchad_user_config = "chadrc"
+
 local options = require("core.utils").load_config().options
 
 opt.title = true
@@ -14,7 +17,7 @@ opt.shiftwidth = options.shiftwidth
 opt.smartindent = options.smartindent
 
 -- disable tilde on end of buffer: https://github.com/neovim/neovim/pull/8546#issuecomment-643643758
-opt.fillchars = options.fillchars
+opt.fillchars = { eob = " " }
 
 opt.hidden = options.hidden
 opt.ignorecase = options.ignorecase
@@ -48,16 +51,27 @@ opt.whichwrap:append "<>[]hl"
 g.mapleader = options.mapleader
 
 -- disable some builtin vim plugins
-local disabled_built_ins = require("core.utils").load_config().plugins.builtins
+local disabled_built_ins = {
+   "2html_plugin",
+   "getscript",
+   "getscriptPlugin",
+   "gzip",
+   "logipat",
+   "netrw",
+   "netrwPlugin",
+   "netrwSettings",
+   "netrwFileHandlers",
+   "matchit",
+   "tar",
+   "tarPlugin",
+   "rrhelper",
+   "spellfile_plugin",
+   "vimball",
+   "vimballPlugin",
+   "zip",
+   "zipPlugin",
+}
 
 for _, plugin in pairs(disabled_built_ins) do
    g["loaded_" .. plugin] = 1
 end
-
---Defer loading shada until after startup_
-vim.opt.shadafile = "NONE"
-
-vim.schedule(function()
-   vim.opt.shadafile = require("core.utils").load_config().options.shadafile
-   vim.cmd [[ silent! rsh ]]
-end)
