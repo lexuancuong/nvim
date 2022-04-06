@@ -6,8 +6,7 @@ end
 
 vim.opt.completeopt = "menuone,noselect"
 
--- nvim-cmp setup
-cmp.setup {
+local default = {
    snippet = {
       expand = function(args)
          require("luasnip").lsp_expand(args.body)
@@ -15,12 +14,8 @@ cmp.setup {
    },
    formatting = {
       format = function(entry, vim_item)
-         -- load lspkind icons
-         vim_item.kind = string.format(
-            "%s %s",
-            require("plugins.configs.lspkind_icons").icons[vim_item.kind],
-            vim_item.kind
-         )
+         local icons = require "plugins.configs.lspkind_icons"
+         vim_item.kind = string.format("%s %s", icons[vim_item.kind], vim_item.kind)
 
          vim_item.menu = ({
             nvim_lsp = "[LSP]",
@@ -42,7 +37,7 @@ cmp.setup {
          behavior = cmp.ConfirmBehavior.Replace,
          select = true,
       },
-      ["<Tab>"] = function(fallback)
+      ["<Tab>"] = cmp.mapping(function(fallback)
          if cmp.visible() then
             cmp.select_next_item()
          elseif require("luasnip").expand_or_jumpable() then
@@ -50,8 +45,8 @@ cmp.setup {
          else
             fallback()
          end
-      end,
-      ["<S-Tab>"] = function(fallback)
+      end, { "i", "s" }),
+      ["<S-Tab>"] = cmp.mapping(function(fallback)
          if cmp.visible() then
             cmp.select_prev_item()
          elseif require("luasnip").jumpable(-1) then
@@ -59,7 +54,7 @@ cmp.setup {
          else
             fallback()
          end
-      end,
+      end, { "i", "s" }),
    },
    sources = {
       { name = "nvim_lsp" },
@@ -69,3 +64,13 @@ cmp.setup {
       { name = "path" },
    },
 }
+
+local M = {}
+M.setup = function(override_flag)
+   if override_flag then
+      default = require("core.utils").tbl_override_req("nvim_cmp", default)
+   end
+   cmp.setup(default)
+end
+
+return M
