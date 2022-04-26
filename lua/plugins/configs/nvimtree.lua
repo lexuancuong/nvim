@@ -2,8 +2,8 @@
 local g = vim.g
 
 g.nvim_tree_add_trailing = 0 -- append a trailing slash to folder names
-g.nvim_tree_git_hl = 0
-g.nvim_tree_highlight_opened_files = 0
+g.nvim_tree_git_hl = 1 
+g.nvim_tree_highlight_opened_files = 1
 g.nvim_tree_indent_markers = 1
 g.nvim_tree_root_folder_modifier = table.concat { ":t:gs?$?/..", string.rep(" ", 1000), "?:gs?^??" }
 
@@ -60,11 +60,13 @@ local default = {
    view = {
       allow_resize = true,
       side = "left",
-      width = 25,
-      hide_root_folder = true,
+      width = 30,
+      hide_root_folder = false,
+      relativenumber = true,
+      signcolumn = "yes",
    },
    git = {
-      enable = false,
+      enable = true,
       ignore = false,
    },
    actions = {

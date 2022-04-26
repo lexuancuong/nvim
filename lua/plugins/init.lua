@@ -77,6 +77,13 @@ local plugins = {
       run = ":TSUpdate",
    },
 
+    -- markdown supporting
+    {
+        'iamcco/markdown-preview.nvim',
+        run = function() vim.fn['mkdp#util#install']() end,
+        ft = {'markdown'}
+    },
+
    -- git stuff
    {
       "lewis6991/gitsigns.nvim",
