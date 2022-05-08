@@ -192,16 +192,22 @@ M.telescope = function()
    local m = plugin_maps.telescope
 
    map("n", m.buffers, ":Telescope buffers <CR>")
-   map("n", m.find_files, ":Telescope find_files <CR>")
+   map("n", m.find_files, ":Telescope find_files no_ignore=true hidden=true<CR>")
    map("n", m.find_hiddenfiles, ":Telescope find_files follow=true no_ignore=true hidden=true <CR>")
    map("n", m.git_commits, ":Telescope git_commits <CR>")
-   map("n", m.git_status, ":Telescope git_status <CR>")
+   map("n", m.git_status, "<cmd>lua require('custom.plugins.telescope').my_git_status()<CR>", {noremap = true, silent = true})
    map("n", m.help_tags, ":Telescope help_tags <CR>")
    map("n", m.live_grep, ":Telescope live_grep <CR>")
    map("n", m.oldfiles, ":Telescope oldfiles <CR>")
    map("n", m.themes, ":Telescope themes <CR>")
    map("n", m.resume, ":Telescope resume <CR>")
-   map("n", "<leader>ft", "<cmd>lua require(\'telescope.builtin\').grep_string({search = vim.fn.expand('<cword>')})<cr>", {})
+   map("n", m.find_this_word, "<cmd>lua require(\'telescope.builtin\').grep_string({search = vim.fn.expand('<cword>')})<cr>", {})
+end
+
+M.hop = function()
+  map("n", "gl", ":HopLine <CR>")
+  map("n", "gw", ":HopWord <CR>")
+  map("n", "/", ":HopPattern <CR>")
 end
 
 return M

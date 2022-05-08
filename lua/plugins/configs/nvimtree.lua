@@ -61,7 +61,7 @@ local default = {
       side = "left",
       width = 30,
       hide_root_folder = false,
-      relativenumber = true,
+      relativenumber = false,
       signcolumn = "yes",
    },
    git = {

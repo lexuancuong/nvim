@@ -264,6 +264,7 @@ M.mappings.plugins = {
       resume = "<leader>r", -- resume previous popup
       oldfiles = "<leader>fo",
       themes = "<leader>th", -- NvChad theme picker
+      find_this_word  = "<leader>ft",
    },
 }
 
