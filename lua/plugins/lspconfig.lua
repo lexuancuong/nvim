@@ -48,6 +48,8 @@ local on_attach = function(client, bufnr)
           desc = "Clear All the References",
       })
   end
+  -- Disable hover in favor of Pyright
+  client.resolved_capabilities.hover = false
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -160,7 +162,7 @@ end
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches.
 -- Add your language server below:
-local servers = { 'bashls', 'pyright', 'clangd', 'html', 'cssls', 'tsserver' }
+local servers = { 'bashls', 'pyright', 'ruff_lsp', 'clangd', 'html', 'cssls', 'tsserver' }
 
 -- Call setup
 for _, lsp in ipairs(servers) do

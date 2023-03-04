@@ -83,7 +83,10 @@ lazy.setup({
       },
     },
 
-    { 'iamcco/markdown-preview.nvim' },
+    {
+      'iamcco/markdown-preview.nvim',
+      run = function() vim.fn["mkdp#util#install"]() end,
+    },
 
     { 'goolord/alpha-nvim' },
 
@@ -115,7 +118,6 @@ lazy.setup({
     },
   },
 })
-
 for _, file in ipairs(vim.fn.readdir(vim.fn.stdpath('config')..'/lua/core', [[v:val =~ '\.lua$']])) do
   require('core.'..file:gsub('%.lua$', ''))
 end
