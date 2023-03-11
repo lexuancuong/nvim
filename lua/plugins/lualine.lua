@@ -53,12 +53,10 @@ local config = {
       { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
       {
         function()
-          local gps = require("nvim-gps")
-          return gps.get_location()
-        end,
-        cond = function()
-          local gps = require("nvim-gps")
-          return pcall(require, "nvim-treesitter.parsers") and gps.is_available()
+          local navic = require("nvim-navic")
+          if navic.is_available() then
+            return navic.get_location { highlight = false }
+          end
         end,
         color = { fg = "#ff9e64" },
       },

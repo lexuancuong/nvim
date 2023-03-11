@@ -28,7 +28,8 @@ lazy.setup({
 
     { 'nvim-lualine/lualine.nvim' },
 
-    { 'SmiteshP/nvim-gps', },
+    -- Show function and method under the current cursor
+    {'SmiteshP/nvim-navic'},
 
     {
       'akinsho/bufferline.nvim',
