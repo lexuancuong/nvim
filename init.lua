@@ -117,6 +117,24 @@ lazy.setup({
         }
       end
     },
+    {
+      'windwp/nvim-spectre',
+      lazy = true,
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+        'kyazdani42/nvim-web-devicons',
+      },
+    },
+    {
+      'ruifm/gitlinker.nvim',
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+      },
+    },
+    -- {"ellisonleao/glow.nvim", config = true, cmd = "Glow"},
+    {
+      'kdheepak/lazygit.nvim'
+    }
   },
 })
 for _, file in ipairs(vim.fn.readdir(vim.fn.stdpath('config')..'/lua/core', [[v:val =~ '\.lua$']])) do

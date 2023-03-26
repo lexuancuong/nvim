@@ -59,11 +59,11 @@ map('n', '<leader>x', ':lua close_buffer()<CR>')
 map('n', '<leader>n', ':BufferLineCycleNext<CR>')
 map('n', '<leader>p', ':BufferLineCyclePrev<CR>')
 
--- TDB
+-- Common stuff
 map('n', '<C-c>', '<cmd> :%y+ <CR>') -- copy whole file content
 map('n', '<S-t>', '<cmd> :enew <CR>') -- new buffer
 map('n', '<C-t>b', '<cmd> :tabnew <CR>') -- new tabs
-map('n', '<leader>l', '<cmd> :set nu! <CR>')
+-- map('n', '<leader>l', '<cmd> :set nu! <CR>')
 map('n', '<leader>rl', '<cmd> :set rnu! <CR>') -- relative line numbers
 map('n', '<C-s>', '<cmd> :w <CR>') -- ctrl + s to save file
 
@@ -91,3 +91,15 @@ map("n", "<leader>fo", ":Telescope oldfiles <CR>")
 map("n", "<leader>r", ":Telescope resume <CR>")
 map("n", "<leader>ft", ":lua require(\'telescope.builtin\').grep_string({search = vim.fn.expand('<cword>')})<cr>", {})
 -- map("n", "<leader>W", ":Telescope terms <CR>") -- pick a hidden term
+
+-- Nvim Spectre
+map('n', '<leader>S', '<cmd>lua require("spectre").open()<CR>')
+map('n', '<leader>sw', '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
+    desc = "Search current word"
+})
+map('v', '<leader>sw', '<esc><cmd>lua require("spectre").open_visual()<CR>', {
+    desc = "Search current word"
+})
+
+-- gitlinker
+map('n', '<leader>gl', '<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".open_in_browser})<cr>', {silent = true})
