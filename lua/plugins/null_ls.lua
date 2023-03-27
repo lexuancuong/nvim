@@ -15,9 +15,10 @@ local sources = {
   b.formatting.black.with({
     extra_args = {'--skip-string-normalization'},
   }),
-  b.diagnostics.spell,
   b.formatting.trim_newlines,
   b.formatting.trim_whitespace,
+  b.diagnostics.cspell,
+  b.code_actions.cspell,
 }
 
 null_ls.setup({
