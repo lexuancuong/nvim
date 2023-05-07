@@ -17,8 +17,12 @@ local sources = {
   }),
   b.formatting.trim_newlines,
   b.formatting.trim_whitespace,
-  b.diagnostics.cspell,
-  b.code_actions.cspell,
+  -- b.diagnostics.cspell.with({
+  --   filetypes = {'python', 'markdown'}
+  -- }),
+  b.code_actions.cspell.with({
+    filetypes = {'python', 'markdown'}
+  }),
 }
 
 null_ls.setup({

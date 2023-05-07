@@ -103,3 +103,6 @@ map('v', '<leader>sw', '<esc><cmd>lua require("spectre").open_visual()<CR>', {
 
 -- gitlinker
 map('n', '<leader>gl', '<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".open_in_browser})<cr>', {silent = true})
+
+-- :LazyGit
+map('n', '<leader>lg', ':LazyGit <CR>')
