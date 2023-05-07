@@ -138,6 +138,12 @@ lazy.setup({
     {
       'kdheepak/lazygit.nvim'
     },
+    {
+      'alexghergh/nvim-tmux-navigation',
+      config = function()
+        require('nvim-tmux-navigation').setup{}
+      end
+    }
   },
 })
 for _, file in ipairs(vim.fn.readdir(vim.fn.stdpath('config')..'/lua/core', [[v:val =~ '\.lua$']])) do

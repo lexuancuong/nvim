@@ -106,3 +106,9 @@ map('n', '<leader>gl', '<cmd>lua require"gitlinker".get_buf_range_url("n", {acti
 
 -- :LazyGit
 map('n', '<leader>lg', ':LazyGit <CR>')
+
+-- tmux navigation
+map("n", "<C-h>", ":NvimTmuxNavigateLeft<CR>")
+map("n", "<C-j>", ":NvimTmuxNavigateDown<CR>")
+map("n", "<C-k>", ":NvimTmuxNavigateUp<CR>")
+map("n", "<C-l>", ":NvimTmuxNavigateRight<CR>")
