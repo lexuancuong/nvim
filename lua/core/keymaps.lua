@@ -34,7 +34,7 @@ map('v', '<', '<gv')
 map('v', '>', '>gv')
 
 -- buffer handling
-local lose_buffer = function(force)
+local close_buffer = function(force)
    if vim.bo.buftype == "terminal" then
       vim.api.nvim_win_hide(0)
       return
@@ -55,7 +55,7 @@ local lose_buffer = function(force)
    local close_cmd = force and ":bd!" or ":bp | bd" .. vim.fn.bufnr()
    vim.cmd(close_cmd)
 end
-map('n', '<leader>x', ':lua close_buffer()<CR>')
+map('n', '<leader>x', ':lua require("core.keymaps").close_buffer()<CR>')
 map('n', '<leader>n', ':BufferLineCycleNext<CR>')
 map('n', '<leader>p', ':BufferLineCyclePrev<CR>')
 

@@ -69,6 +69,29 @@ lazy.setup({
 
     { 'rafamadriz/friendly-snippets' },
 
+    -- Coplilot stuff
+    {
+      "zbirenbaum/copilot.lua",
+      cmd = "Copilot",
+      event = "InsertEnter",
+      config = function()
+        require('copilot').setup({
+          suggestion = { enabled = false },
+          panel = { enabled = false },
+          filetypes = {
+            python = true,
+            ["."] = false,
+          },
+        })
+      end,
+    },
+    {
+      "zbirenbaum/copilot-cmp",
+      dependencies = {'zbirenbaum/copilot.lua'},
+      config = function ()
+        require("copilot_cmp").setup()
+      end
+    },
     {
       'hrsh7th/nvim-cmp',
       -- load cmp on InsertEnter
@@ -81,6 +104,8 @@ lazy.setup({
         'hrsh7th/cmp-path',
         'hrsh7th/cmp-buffer',
         'saadparwaiz1/cmp_luasnip',
+        'zbirenbaum/copilot-cmp',
+        'zbirenbaum/copilot.lua',
       },
     },
 
