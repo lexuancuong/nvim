@@ -12,6 +12,12 @@ vim.g.mapleader = ' '
 -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
 map('v', 'p', 'p:let @+=@0<CR>:let @"=@0<CR>', { silent = true })
 
+-- Don't yank on delete char
+map("n", "x", '"_x', silent)
+map("n", "X", '"_X', silent)
+map("v", "x", '"_x', silent)
+map("v", "X", '"_X', silent)
+
 -- use ESC to turn off search highlighting
 map('n', '<Esc>', '<cmd> :noh <CR>')
 
@@ -81,7 +87,8 @@ map("n", "gw", ":HopWord <CR>")
 
 -- Telescope
 map("n", "<leader>fb", ":Telescope buffers <CR>")
-map("n", "<leader>ff", ":Telescope find_files no_ignore=true hidden=true<CR>")
+-- map("n", "<leader>ff", ":Telescope find_files no_ignore=true hidden=true<CR>")
+map("n", "<leader>ff", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
 map("n", "<leader>fa", ":Telescope find_files follow=true no_ignore=true hidden=true <CR>")
 map("n", "<leader>cm", ":Telescope git_commits <CR>")
 -- map("n", "<leader>gs", ":lua require('custom.plugins.telescope').my_git_status()<CR>", {noremap = true, silent = true})

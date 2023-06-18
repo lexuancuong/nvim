@@ -58,7 +58,7 @@ local options = {
 telescope.setup(options)
 
 -- load extensions
-local extensions = { "themes", "terms"}
+local extensions = { "themes", "terms", "live_grep_args"}
 
 pcall(function()
    for _, ext in ipairs(extensions) do
