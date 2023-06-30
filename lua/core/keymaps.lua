@@ -12,11 +12,11 @@ vim.g.mapleader = ' '
 -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
 map('v', 'p', 'p:let @+=@0<CR>:let @"=@0<CR>', { silent = true })
 
--- Don't yank on delete char
-map("n", "x", '"_x', silent)
-map("n", "X", '"_X', silent)
-map("v", "x", '"_x', silent)
-map("v", "X", '"_X', silent)
+-- Don't yank on delete with letter d
+map("n", "d", '"_d', silent)
+map("n", "D", '"_D', silent)
+map("v", "d", '"_d', silent)
+map("v", "D", '"_D', silent)
 
 -- use ESC to turn off search highlighting
 map('n', '<Esc>', '<cmd> :noh <CR>')
@@ -61,7 +61,7 @@ local close_buffer = function(force)
    local close_cmd = force and ":bd!" or ":bp | bd" .. vim.fn.bufnr()
    vim.cmd(close_cmd)
 end
-map('n', '<leader>x', ':lua require("core.keymaps").close_buffer()<CR>')
+map('n', '<leader>x', ':bp<bar>sp<bar>bn<bar>bd<CR>')
 map('n', '<leader>n', ':BufferLineCycleNext<CR>')
 map('n', '<leader>p', ':BufferLineCyclePrev<CR>')
 
@@ -87,13 +87,13 @@ map("n", "gw", ":HopWord <CR>")
 
 -- Telescope
 map("n", "<leader>fb", ":Telescope buffers <CR>")
--- map("n", "<leader>ff", ":Telescope find_files no_ignore=true hidden=true<CR>")
-map("n", "<leader>ff", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
+map("n", "<leader>ff", ":Telescope find_files no_ignore=true hidden=true<CR>")
 map("n", "<leader>fa", ":Telescope find_files follow=true no_ignore=true hidden=true <CR>")
 map("n", "<leader>cm", ":Telescope git_commits <CR>")
 -- map("n", "<leader>gs", ":lua require('custom.plugins.telescope').my_git_status()<CR>", {noremap = true, silent = true})
 map("n", "<leader>fh", ":Telescope help_tags <CR>")
-map("n", "<leader>fw", ":Telescope live_grep no_ignore=true hidden=true <CR>")
+-- map("n", "<leader>fw", ":Telescope live_grep no_ignore=true hidden=true <CR>")
+map("n", "<leader>fw", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
 map("n", "<leader>fo", ":Telescope oldfiles <CR>")
 map("n", "<leader>r", ":Telescope resume <CR>")
 map("n", "<leader>ft", ":lua require(\'telescope.builtin\').grep_string({search = vim.fn.expand('<cword>')})<cr>", {})
