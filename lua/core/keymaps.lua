@@ -12,12 +12,6 @@ vim.g.mapleader = ' '
 -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
 map('v', 'p', 'p:let @+=@0<CR>:let @"=@0<CR>', { silent = true })
 
--- Don't yank on delete with letter d
-map("n", "d", '"_d', silent)
-map("n", "D", '"_D', silent)
-map("v", "d", '"_d', silent)
-map("v", "D", '"_D', silent)
-
 -- use ESC to turn off search highlighting
 map('n', '<Esc>', '<cmd> :noh <CR>')
 
