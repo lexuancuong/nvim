@@ -80,6 +80,7 @@ lazy.setup({
           panel = { enabled = false },
           filetypes = {
             python = true,
+            scala = true,
             ["."] = false,
           },
         })
