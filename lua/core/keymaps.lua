@@ -65,7 +65,6 @@ map('n', '<S-t>', '<cmd> :enew <CR>') -- new buffer
 map('n', '<C-t>b', '<cmd> :tabnew <CR>') -- new tabs
 -- map('n', '<leader>l', '<cmd> :set nu! <CR>')
 map('n', '<leader>rl', '<cmd> :set rnu! <CR>') -- relative line numbers
-map('n', '<C-s>', '<cmd> :w <CR>') -- ctrl + s to save file
 
 -- NvimTree
 map('n', '<C-n>', ':NvimTreeToggle<CR>')            -- open/close
@@ -94,7 +93,7 @@ map("n", "<leader>ft", ":lua require(\'telescope.builtin\').grep_string({search 
 -- map("n", "<leader>W", ":Telescope terms <CR>") -- pick a hidden term
 
 -- Nvim Spectre
-map('n', '<leader>S', '<cmd>lua require("spectre").open()<CR>')
+map('n', '<C-s>', '<cmd>lua require("spectre").open()<CR>')
 map('n', '<leader>sw', '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
     desc = "Search current word"
 })
@@ -113,3 +112,6 @@ map("n", "<C-h>", ":NvimTmuxNavigateLeft<CR>")
 map("n", "<C-j>", ":NvimTmuxNavigateDown<CR>")
 map("n", "<C-k>", ":NvimTmuxNavigateUp<CR>")
 map("n", "<C-l>", ":NvimTmuxNavigateRight<CR>")
+
+-- vim-maximizer
+map("n", "<leader><space>", ":MaximizerToggle<CR>", {desc="Maximize or minize the current pane"})

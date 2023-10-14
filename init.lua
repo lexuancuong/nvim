@@ -69,6 +69,8 @@ lazy.setup({
 
     { 'rafamadriz/friendly-snippets' },
 
+    { 'szw/vim-maximizer' },
+
     -- Coplilot stuff
     {
       "zbirenbaum/copilot.lua",

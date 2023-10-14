@@ -119,6 +119,10 @@ local options = {
    },
    sources = {
       {
+        name = "nvim_lsp",
+        max_item_count = 5,
+      },
+      {
         name = "copilot",
         -- keyword_length = 0,
         max_item_count = 3,
@@ -149,7 +153,6 @@ local options = {
           },
         },
       },
-      { name = "nvim_lsp" },
       { name = "luasnip" },
       { name = "buffer" },
       { name = "nvim_lua" },
