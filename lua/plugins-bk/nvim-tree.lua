@@ -1,8 +1,8 @@
 return {
-  'nvim-tree/nvim-tree.lua',
-  dependencies = { 'nvim-tree/nvim-web-devicons' },
-  config = function()
-    local nvim_tree = require("nvim-tree")
+  'kyazdani42/nvim-tree.lua',
+  dependencies = { 'kyazdani42/nvim-web-devicons' },
+config = function()
+    local nvimtree = require("nvim-tree")
     -- recommended settings from nvim-tree documentation
     vim.g.loaded_netrw = 1
     vim.g.loaded_netrwPlugin = 1
@@ -20,17 +20,25 @@ return {
       reload_on_bufenter = false,
       respect_buf_cwd = false,
       on_attach = "disable",
+      remove_keymaps = false,
       select_prompts = false,
       view = {
         centralize_selection = false,
         cursorline = true,
         debounce_delay = 15,
         width = 34,
+        hide_root_folder = false,
         side = "left",
         preserve_window_proportions = false,
         number = false,
         relativenumber = false,
         signcolumn = "yes",
+        mappings = {
+          custom_only = false,
+          list = {
+            -- user mappings go here
+          },
+        },
         float = {
           enable = true,
           quit_on_focus_loss = true,
@@ -115,6 +123,7 @@ return {
         update_root = false,
         ignore_list = {},
       },
+      ignore_ft_on_setup = {},
       system_open = {
         cmd = "",
         args = {},
@@ -154,7 +163,7 @@ return {
         show_on_open_dirs = true,
         timeout = 400,
       },
-      modified = {
+        modified = {
         enable = false,
         show_on_dirs = true,
         show_on_open_dirs = true,
@@ -226,6 +235,6 @@ return {
           watcher = false,
         },
       },
-    })
-  end
+    }
+  )
 }

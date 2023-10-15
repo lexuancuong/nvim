@@ -1,20 +1,37 @@
-local is_nvim_treesitter_ok, nvim_treesitter = pcall(require, 'nvim-treesitter.configs')
-if not is_nvim_treesitter_ok then
-  return
-end
-
--- See: https://github.com/nvim-treesitter/nvim-treesitter#quickstart
-nvim_treesitter.setup {
-  -- A list of parser names, or "all"
-  ensure_installed = {
-    'bash', 'css', 'html', 'javascript', 'json', 'lua', 'python',
-    'rust', 'typescript', 'vim', 'yaml',
+return {
+  "nvim-treesitter/nvim-treesitter",
+  event = { "BufReadPre", "BufNewFile" },
+  build = ":TSUpdate",
+  dependencies = {
+    "windwp/nvim-ts-autotag",
   },
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
-  highlight = {
-    -- `false` will disable the whole extension
-    enable = true,
-    use_languagetree = true,
-  },
+  config = function()
+    require("nvim-treesitter.configs").setup({
+      highlight = {
+        enable = true,
+        use_languagetree = true,
+      },
+      -- enable indentation
+      indent = { enable = true },
+      -- enable autotagging (w/ nvim-ts-autotag plugin)
+      autotag = {
+        enable = true,
+      },
+      -- ensure these language parsers are installed
+      ensure_installed = {
+        "python",
+        "json",
+        "yaml",
+        "html",
+        "css",
+        "markdown",
+        "markdown_inline",
+        "bash",
+        "lua",
+        "vim",
+        "dockerfile",
+        "gitignore",
+      },
+    })
+  end,
 }

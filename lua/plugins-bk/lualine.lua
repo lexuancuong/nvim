@@ -1,7 +1,7 @@
 local is_lualine_ok, lualine = pcall(require, "lualine")
 
 if not is_lualine_ok then
-   return
+  return
 end
 
 local function clock()
@@ -55,7 +55,7 @@ local config = {
         function()
           local navic = require("nvim-navic")
           if navic.is_available() then
-            return navic.get_location { highlight = false }
+            return navic.get_location({ highlight = false })
           end
         end,
         color = { fg = "#ff9e64" },
