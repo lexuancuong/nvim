@@ -1,6 +1,6 @@
 return {
-  'nvim-tree/nvim-tree.lua',
-  dependencies = { 'nvim-tree/nvim-web-devicons' },
+  "nvim-tree/nvim-tree.lua",
+  dependencies = { "nvim-tree/nvim-web-devicons", "tpope/vim-fugitive"},
   config = function()
     local nvim_tree = require("nvim-tree")
     -- recommended settings from nvim-tree documentation
@@ -126,7 +126,7 @@ return {
         debounce_delay = 50,
         severity = {
           min = vim.diagnostic.severity.HINT,
-          max = vim.diagnostic.severity.ERROR
+          max = vim.diagnostic.severity.ERROR,
         },
         icons = {
           hint = "",
@@ -227,5 +227,7 @@ return {
         },
       },
     })
-  end
+  vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>")
+  vim.keymap.set("n", "<leader>t", ":NvimTreeFocus<CR>")
+  end,
 }

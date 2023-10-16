@@ -1,14 +1,14 @@
 return {
-    'nvim-telescope/telescope.nvim',
-    dependencies = {
-        "nvim-lua/plenary.nvim",
-        'nvim-telescope/telescope-live-grep-args.nvim',
-        { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-        "nvim-tree/nvim-web-devicons",
-    },
-    config = function()
-      telescope = require('telescope')
-      telescope.setup({
+  "nvim-telescope/telescope.nvim",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-telescope/telescope-live-grep-args.nvim",
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    "nvim-tree/nvim-web-devicons",
+  },
+  config = function()
+    telescope = require("telescope")
+    telescope.setup({
       defaults = {
         vimgrep_arguments = {
           "rg",
@@ -56,7 +56,21 @@ return {
         -- Developer configurations: Not meant for general override
         buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
       },
-      })
-      telescope.load_extension("live_grep_args")
-    end
+    })
+    telescope.load_extension("live_grep_args")
+
+    local keymap = vim.keymap
+    keymap.set("n", "<leader>fb", ":Telescope buffers <CR>")
+    keymap.set("n", "<leader>ff", ":Telescope find_files no_ignore=true hidden=true<CR>")
+    keymap.set("n", "<leader>fa", ":Telescope find_files follow=true no_ignore=true hidden=true <CR>")
+    keymap.set("n", "<leader>cm", ":Telescope git_commits <CR>")
+    keymap.set("n", "<leader>gs", ":lua require('custom.plugins.telescope').my_git_status()<CR>", {noremap = true, silent = true})
+    keymap.set("n", "<leader>fh", ":Telescope help_tags <CR>")
+    keymap.set("n", "<leader>fw", function() 
+      require('telescope').extensions.live_grep_args.live_grep_args()
+    end)
+    keymap.set("n", "<leader>fo", ":Telescope oldfiles <CR>")
+    keymap.set("n", "<leader>r", ":Telescope resume <CR>")
+    keymap.set("n", "<leader>ft", ":lua require('telescope.builtin').grep_string({search = vim.fn.expand('<cword>')})<cr>", {})
+  end,
 }

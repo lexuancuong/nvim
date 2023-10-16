@@ -2,7 +2,8 @@ return {
   "akinsho/bufferline.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   version = "*",
-  opts = {
+  config = function()
+    require('bufferline').setup({
     options = {
       offsets = { { filetype = "NvimTree", text = "", padding = 1 } },
       buffer_close_icon = "",
@@ -50,5 +51,9 @@ return {
         return true
       end,
     },
-  },
+    })
+    vim.keymap.set("n", "<leader>x", ":bp<bar>sp<bar>bn<bar>bd<CR>")
+    vim.keymap.set("n", "<leader>n", ":BufferLineCycleNext<CR>")
+    vim.keymap.set("n", "<leader>p", ":BufferLineCyclePrev<CR>")
+  end
 }
