@@ -21,6 +21,11 @@ return {
       -- set keybinds
       -- opts.desc = "Show LSP references"
       -- keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
+      -- Important to show function from LSP diagnostic
+      if client.supports_method("textDocument/documentSymbol") and client.name ~= "bashls" then
+        require("nvim-navic").attach(client, bufnr)
+      end
+
 
       opts.desc = "Go to declaration"
       keymap.set("n", "gd", vim.lsp.buf.declaration, opts) -- go to declaration

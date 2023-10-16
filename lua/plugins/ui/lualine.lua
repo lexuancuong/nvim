@@ -23,7 +23,7 @@ end
 
 return {
   'nvim-lualine/lualine.nvim',
-  dependencies = {'neovim/nvim-lspconfig', 'SmiteshP/nvim-navic'},
+  dependencies = {'neovim/nvim-lspconfig', 'SmiteshP/nvim-navic', 'folke/tokyonight.nvim'},
   config = function()
     vim.cmd("au User LspProgressUpdate let &ro = &ro")
     lualine = require('lualine')
