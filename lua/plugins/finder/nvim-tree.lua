@@ -1,6 +1,6 @@
 return {
   "nvim-tree/nvim-tree.lua",
-  dependencies = { "nvim-tree/nvim-web-devicons", "tpope/vim-fugitive"},
+  dependencies = { "nvim-tree/nvim-web-devicons", "tpope/vim-fugitive" },
   config = function()
     local nvim_tree = require("nvim-tree")
     -- recommended settings from nvim-tree documentation
@@ -227,7 +227,7 @@ return {
         },
       },
     })
-  vim.keymap.set("n", "<C-n>", "<cmd>NvimTreeToggle<CR>") -- Open the nvim window with a floating box
-  vim.keymap.set("n", "<leader>t", "<cmd>NvimTreeFocus<CR>")
+    vim.keymap.set("n", "<C-n>", "<cmd>NvimTreeToggle<CR>") -- Open the nvim window with a floating box
+    vim.keymap.set("n", "<leader>t", "<cmd>NvimTreeFocus<CR>")
   end,
 }

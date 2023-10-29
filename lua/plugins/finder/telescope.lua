@@ -6,7 +6,7 @@ return {
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     "nvim-tree/nvim-web-devicons",
     -- 'nvim-telescope/telescope-project.nvim',
-    'ahmedkhalf/project.nvim',
+    "ahmedkhalf/project.nvim",
   },
   config = function()
     telescope = require("telescope")
@@ -64,19 +64,24 @@ return {
     vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers <CR>")
     vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files no_ignore=true hidden=true<CR>")
     -- keymap.set("n", "<leader>fa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true <CR>")
-    vim.keymap.set("n", "<leader>fw", function() 
-      require('telescope').extensions.live_grep_args.live_grep_args()
+    vim.keymap.set("n", "<leader>fw", function()
+      require("telescope").extensions.live_grep_args.live_grep_args()
     end)
     vim.keymap.set("n", "<leader>r", ":Telescope resume <CR>")
-    vim.keymap.set("n", "<leader>ft", ":lua require('telescope.builtin').grep_string({search = vim.fn.expand('<cword>')})<cr>", {}) -- Find the current word under cursor
+    vim.keymap.set(
+      "n",
+      "<leader>ft",
+      ":lua require('telescope.builtin').grep_string({search = vim.fn.expand('<cword>')})<cr>",
+      {}
+    ) -- Find the current word under cursor
     -- vim.api.nvim_set_keymap(
     --   'n',
     --   '<leader>p',
     --   ":lua require'telescope'.extensions.project.project{}<CR>",
     --   {noremap = true, silent = true}
     -- )
-    vim.keymap.set("n", "<leader>p", function() 
-      require('telescope').extensions.projects.projects{}
+    vim.keymap.set("n", "<leader>p", function()
+      require("telescope").extensions.projects.projects({})
     end)
   end,
 }

@@ -22,7 +22,6 @@ return {
         require("nvim-navic").attach(client, bufnr)
       end
 
-
       opts.desc = "Go to declaration"
       vim.keymap.set("n", "gd", vim.lsp.buf.declaration, opts)
 
@@ -59,10 +58,9 @@ return {
 
       opts.desc = "Restart LSP"
       keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
-      
+
       opts.desc = "Show error in detail"
       vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
-
     end
 
     -- used to enable autocompletion (assign to every lsp server config)
@@ -85,14 +83,13 @@ return {
         python = {
           analysis = {
             autoSearchPaths = true,
-            diagnosticMode = 'openFilesOnly', -- Important to avoid analysing from third-party/python codes
+            diagnosticMode = "openFilesOnly", -- Important to avoid analysing from third-party/python codes
             useLibraryCodeForTypes = true,
-            typeCheckingMode = 'off'
-          }
-        }
-      }
+            typeCheckingMode = "off",
+          },
+        },
+      },
     })
-
 
     -- Diagnostic settings:
     -- see: `:help vim.diagnostic.config`

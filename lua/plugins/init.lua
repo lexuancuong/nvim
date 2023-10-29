@@ -14,12 +14,12 @@ vim.opt.rtp:prepend(lazypath)
 -- Make sure to set `mapleader` before lazy so your mappings are correct
 vim.g.mapleader = " "
 require("lazy").setup({
-  {import="plugins.lsp"},
-  {import="plugins.git"},
-  {import="plugins.ui"},
-  {import="plugins.finder"},
-  {import="plugins.navigator"},
-  {import="plugins.coding"},
+  { import = "plugins.lsp" },
+  { import = "plugins.git" },
+  { import = "plugins.ui" },
+  { import = "plugins.finder" },
+  { import = "plugins.navigator" },
+  { import = "plugins.coding" },
 }, {
   checker = {
     enabled = true,

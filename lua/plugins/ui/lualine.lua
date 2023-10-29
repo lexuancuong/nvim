@@ -22,11 +22,11 @@ local function lsp_progress(_, is_active)
 end
 
 return {
-  'nvim-lualine/lualine.nvim',
-  dependencies = {'neovim/nvim-lspconfig', 'SmiteshP/nvim-navic', 'folke/tokyonight.nvim'},
+  "nvim-lualine/lualine.nvim",
+  dependencies = { "neovim/nvim-lspconfig", "SmiteshP/nvim-navic", "folke/tokyonight.nvim" },
   config = function()
     vim.cmd("au User LspProgressUpdate let &ro = &ro")
-    lualine = require('lualine')
+    lualine = require("lualine")
     lualine.setup({
       options = {
         theme = "tokyonight",
@@ -65,5 +65,5 @@ return {
       },
       extensions = { "nvim-tree" },
     })
-  end
+  end,
 }

@@ -42,7 +42,7 @@ vim.keymap.set("v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual(
   desc = "Search current word",
 })
 
-vim.keymap.set('n', '<Esc>', function ()
+vim.keymap.set("n", "<Esc>", function()
   vim.cmd(":noh")
   require("noice").cmd("dismiss") -- Outlier for noice plugic
 end)

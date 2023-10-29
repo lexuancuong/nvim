@@ -1,8 +1,8 @@
 return {
-  'windwp/nvim-spectre',
+  "windwp/nvim-spectre",
   lazy = true,
   dependencies = {
-    'nvim-lua/plenary.nvim',
+    "nvim-lua/plenary.nvim",
     -- 'kyazdani42/nvim-web-devicons',
   },
 }
