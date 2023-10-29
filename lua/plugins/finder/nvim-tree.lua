@@ -227,7 +227,7 @@ return {
         },
       },
     })
-  vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>")
-  vim.keymap.set("n", "<leader>t", ":NvimTreeFocus<CR>")
+  vim.keymap.set("n", "<C-n>", "<cmd>NvimTreeToggle<CR>") -- Open the nvim window with a floating box
+  vim.keymap.set("n", "<leader>t", "<cmd>NvimTreeFocus<CR>")
   end,
 }

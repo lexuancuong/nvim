@@ -25,6 +25,9 @@ return {
       shfmt = {
         prepend_args = { "-i", "2" },
       },
+      isort = {
+        prepend_args = { "--ca", "-m=3" },
+      },
     },
   },
   init = function()

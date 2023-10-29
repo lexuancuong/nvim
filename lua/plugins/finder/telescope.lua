@@ -5,6 +5,8 @@ return {
     "nvim-telescope/telescope-live-grep-args.nvim",
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     "nvim-tree/nvim-web-devicons",
+    -- 'nvim-telescope/telescope-project.nvim',
+    'ahmedkhalf/project.nvim',
   },
   config = function()
     telescope = require("telescope")
@@ -58,19 +60,23 @@ return {
       },
     })
     telescope.load_extension("live_grep_args")
-
-    local keymap = vim.keymap
-    keymap.set("n", "<leader>fb", ":Telescope buffers <CR>")
-    keymap.set("n", "<leader>ff", ":Telescope find_files no_ignore=true hidden=true<CR>")
-    keymap.set("n", "<leader>fa", ":Telescope find_files follow=true no_ignore=true hidden=true <CR>")
-    keymap.set("n", "<leader>cm", ":Telescope git_commits <CR>")
-    keymap.set("n", "<leader>gs", ":lua require('custom.plugins.telescope').my_git_status()<CR>", {noremap = true, silent = true})
-    keymap.set("n", "<leader>fh", ":Telescope help_tags <CR>")
-    keymap.set("n", "<leader>fw", function() 
+    telescope.load_extension("projects")
+    vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers <CR>")
+    vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files no_ignore=true hidden=true<CR>")
+    -- keymap.set("n", "<leader>fa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true <CR>")
+    vim.keymap.set("n", "<leader>fw", function() 
       require('telescope').extensions.live_grep_args.live_grep_args()
     end)
-    keymap.set("n", "<leader>fo", ":Telescope oldfiles <CR>")
-    keymap.set("n", "<leader>r", ":Telescope resume <CR>")
-    keymap.set("n", "<leader>ft", ":lua require('telescope.builtin').grep_string({search = vim.fn.expand('<cword>')})<cr>", {})
+    vim.keymap.set("n", "<leader>r", ":Telescope resume <CR>")
+    vim.keymap.set("n", "<leader>ft", ":lua require('telescope.builtin').grep_string({search = vim.fn.expand('<cword>')})<cr>", {}) -- Find the current word under cursor
+    -- vim.api.nvim_set_keymap(
+    --   'n',
+    --   '<leader>p',
+    --   ":lua require'telescope'.extensions.project.project{}<CR>",
+    --   {noremap = true, silent = true}
+    -- )
+    vim.keymap.set("n", "<leader>p", function() 
+      require('telescope').extensions.projects.projects{}
+    end)
   end,
 }
