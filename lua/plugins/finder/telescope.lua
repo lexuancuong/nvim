@@ -5,8 +5,6 @@ return {
     "nvim-telescope/telescope-live-grep-args.nvim",
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     "nvim-tree/nvim-web-devicons",
-    -- 'nvim-telescope/telescope-project.nvim',
-    "ahmedkhalf/project.nvim",
   },
   config = function()
     telescope = require("telescope")
@@ -60,7 +58,6 @@ return {
       },
     })
     telescope.load_extension("live_grep_args")
-    telescope.load_extension("projects")
     vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers <CR>")
     vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files no_ignore=true hidden=true<CR>")
     -- keymap.set("n", "<leader>fa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true <CR>")
@@ -74,14 +71,5 @@ return {
       ":lua require('telescope.builtin').grep_string({search = vim.fn.expand('<cword>')})<cr>",
       {}
     ) -- Find the current word under cursor
-    -- vim.api.nvim_set_keymap(
-    --   'n',
-    --   '<leader>p',
-    --   ":lua require'telescope'.extensions.project.project{}<CR>",
-    --   {noremap = true, silent = true}
-    -- )
-    vim.keymap.set("n", "<leader>p", function()
-      require("telescope").extensions.projects.projects({})
-    end)
   end,
 }
