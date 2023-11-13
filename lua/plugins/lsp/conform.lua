@@ -28,6 +28,9 @@ return {
       isort = {
         prepend_args = { "--ca", "-m=3" },
       },
+      black = {
+        prepend_args = { "--skip-string-normalization"},
+      },
     },
   },
   init = function()
