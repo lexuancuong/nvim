@@ -61,6 +61,8 @@ return {
     vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers <CR>")
     vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files no_ignore=true hidden=true<CR>")
     -- keymap.set("n", "<leader>fa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true <CR>")
+    vim.keymap.set("n", "<leader>gs", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true <CR>")
+    vim.keymap.set("n", "<leader>gs", ":lua require('telescope.builtin').git_status()<CR>", {noremap = true, silent = true})
     vim.keymap.set("n", "<leader>fw", function()
       require("telescope").extensions.live_grep_args.live_grep_args()
     end)

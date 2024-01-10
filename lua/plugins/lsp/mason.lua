@@ -33,7 +33,7 @@ return {
       ensure_installed = {
         "isort", -- python formatter
         "black", -- python formatter
-        "pylint", -- python linter
+        -- "pylint", -- python linter
       },
     })
   end,

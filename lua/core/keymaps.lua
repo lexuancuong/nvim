@@ -5,9 +5,6 @@ vim.g.mapleader = " "
 -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
 vim.keymap.set("v", "p", 'p:let @+=@0<CR>:let @"=@0<CR>', { silent = true })
 
--- use ESC to turn off search highlighting
-vim.keymap.set("n", "<Esc>", "<cmd> :noh <CR>")
-
 -- move cursor within insert mode
 vim.keymap.set("i", "<C-h>", "<Left>")
 vim.keymap.set("i", "<C-e>", "<End>")
@@ -17,10 +14,10 @@ vim.keymap.set("i", "<C-k>", "<Up>")
 vim.keymap.set("i", "<C-a>", "<ESC>^i")
 
 -- navigation between windows
-vim.keymap.set("n", "<C-h>", "<C-w>h")
-vim.keymap.set("n", "<C-l>", "<C-w>l")
-vim.keymap.set("n", "<C-k>", "<C-w>k")
-vim.keymap.set("n", "<C-j>", "<C-w>j")
+-- vim.keymap.set("n", "<C-h>", "<cmd> :TmuxNavigateLeft <CR>")
+-- vim.keymap.set("n", "<C-j>", "<cmd> :TmuxNavigateDown <CR>")
+-- vim.keymap.set("n", "<C-k>", "<cmd> :TmuxNavigateUp <CR>")
+-- vim.keymap.set("n", "<C-l>", "<cmd> :TmuxNavigateRight <CR>")
 
 -- better indenting
 vim.keymap.set("v", "<", "<gv")
@@ -43,6 +40,6 @@ vim.keymap.set("v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual(
 })
 
 vim.keymap.set("n", "<Esc>", function()
-  vim.cmd(":noh")
+  vim.cmd(":noh") -- use ESC to turn off search highlighting
   require("noice").cmd("dismiss") -- Outlier for noice plugic
 end)
