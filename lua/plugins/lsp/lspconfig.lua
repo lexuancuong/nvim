@@ -85,7 +85,8 @@ return {
             autoSearchPaths = true,
             diagnosticMode = "openFilesOnly", -- Important to avoid analysing from third-party/python codes
             useLibraryCodeForTypes = true,
-            typeCheckingMode = "off",
+            -- This one is extremely important to show error diagnostics. Without it, only warnings and info are shown
+            typeCheckingMode = "on",
           },
         },
       },
