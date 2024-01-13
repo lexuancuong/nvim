@@ -13,12 +13,6 @@ vim.keymap.set("i", "<C-j>", "<Down>")
 vim.keymap.set("i", "<C-k>", "<Up>")
 vim.keymap.set("i", "<C-a>", "<ESC>^i")
 
--- navigation between windows
--- vim.keymap.set("n", "<C-h>", "<cmd> :TmuxNavigateLeft <CR>")
--- vim.keymap.set("n", "<C-j>", "<cmd> :TmuxNavigateDown <CR>")
--- vim.keymap.set("n", "<C-k>", "<cmd> :TmuxNavigateUp <CR>")
--- vim.keymap.set("n", "<C-l>", "<cmd> :TmuxNavigateRight <CR>")
-
 -- better indenting
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
@@ -43,3 +37,8 @@ vim.keymap.set("n", "<Esc>", function()
   vim.cmd(":noh") -- use ESC to turn off search highlighting
   require("noice").cmd("dismiss") -- Outlier for noice plugic
 end)
+
+-- Change words with `c` shortcuts without yanking the replaced text
+vim.keymap.set("n", "c", '"_c')
+vim.keymap.set("n", "C", '"_C')
+vim.keymap.set("n", "cc", '"_cc')
