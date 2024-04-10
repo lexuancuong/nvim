@@ -49,4 +49,6 @@ opt.updatetime = 250
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
 opt.whichwrap:append("<>[]hl")
-opt.foldlevel = 1
+opt.foldmethod = 'expr'                                -- enable folding (default 'foldmarker')
+opt.foldlevel = 9999                                     -- open a file fully expanded, set to 
+vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
