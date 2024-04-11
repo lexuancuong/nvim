@@ -67,6 +67,9 @@ return {
       require("telescope").extensions.live_grep_args.live_grep_args()
     end)
     vim.keymap.set("n", "<leader>r", ":Telescope resume <CR>")
+    vim.keymap.set("n", "<leader>mt", function()
+      telescope.extensions.metals.commands()
+    end)
     vim.keymap.set(
       "n",
       "<leader>ft",

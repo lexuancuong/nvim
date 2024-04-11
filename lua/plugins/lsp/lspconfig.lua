@@ -9,6 +9,7 @@ return {
     local lspconfig = require("lspconfig")
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
     local keymap = vim.keymap -- for conciseness
+    vim.lsp.set_log_level("debug")
 
     local opts = { noremap = true, silent = true }
     local on_attach = function(client, bufnr)
@@ -21,50 +22,67 @@ return {
       if client.supports_method("textDocument/documentSymbol") and client.name ~= "bashls" then
         require("nvim-navic").attach(client, bufnr)
       end
-
-      opts.desc = "Go to declaration"
-      vim.keymap.set("n", "gd", vim.lsp.buf.declaration, opts)
-
-      opts.desc = "Show LSP definitions"
-      vim.keymap.set("n", "gD", "<cmd>Telescope lsp_definitions<CR>", opts)
-      vim.keymap.set("n", "ge", "<cmd>lua vim.diagnostic.open_float(nil, { focus = false })<CR>")
-
-      -- opts.desc = "Show LSP implementations"
-      -- keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
-      --
-      -- opts.desc = "Show LSP type definitions"
-      -- keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
-      --
-      -- opts.desc = "See available code actions"
-      keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
-      --
-      opts.desc = "Smart rename"
-      keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
-      --
-      -- opts.desc = "Show buffer diagnostics"
-      -- keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
-      --
-      -- opts.desc = "Show line diagnostics"
-      -- keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
-      --
-      -- opts.desc = "Go to previous diagnostic"
-      -- keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
-      --
-      -- opts.desc = "Go to next diagnostic"
-      -- keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
-      --
-      opts.desc = "Show documentation for what is under cursor"
-      keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+      keymap.set("n", "gd", vim.lsp.buf.declaration, opts)
+      keymap.set("n", "gD", vim.lsp.buf.definition)
+      keymap.set("n", "ge", "<cmd>lua vim.diagnostic.open_float(nil, { focus = false })<CR>")
+      keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
+      keymap.set("n", "<leader>cl", vim.lsp.codelens.run)
+      keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>") -- show lsp implementations
+      keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>") -- show lsp type definitions
+      keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action) -- see available code actions, in visual mode will apply to selection
+      keymap.set("n", "<leader>rn", vim.lsp.buf.rename) -- smart rename
+      keymap.set("n", "K", vim.lsp.buf.hover) -- show documentation for what is under cursor
 
       opts.desc = "Restart LSP"
       keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
-
-      opts.desc = "Show error in detail"
-      vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
     end
 
     -- used to enable autocompletion (assign to every lsp server config)
     local capabilities = cmp_nvim_lsp.default_capabilities()
+    --================================
+    -- Metals specific setup
+    --================================
+    local metals_config = require("metals").bare_config()
+    metals_config.tvp = {
+      icons = {
+        enabled = true,
+      },
+    }
+
+    --metals_config.cmd = { "cs", "launch", "tech.neader:langoustine-tracer_3:0.0.18", "--", "metals" }
+    metals_config.settings = {
+      defaultBspToBuildTool = true,
+      enableSemanticHighlighting = false,
+      showImplicitArguments = true,
+      showImplicitConversionsAndClasses = true,
+      showInferredType = true,
+      serverVersion = "latest.snapshot",
+    }
+
+    metals_config.init_options = {
+      statusBarProvider = "on",
+      icons = "unicode"
+    }
+
+    metals_config.capabilities = capabilities
+
+    metals_config.on_attach = function(client, bufnr)
+      on_attach(client, bufnr)
+
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
+        callback = vim.lsp.codelens.refresh,
+        buffer = bufnr,
+        group = lsp_group,
+      })
+    end
+    local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = { "scala", "sbt", "java" },
+      callback = function()
+        require("metals").initialize_or_attach(metals_config)
+      end,
+      group = nvim_metals_group,
+    })
 
     -- configure html server
     lspconfig["html"].setup({
