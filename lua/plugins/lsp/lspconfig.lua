@@ -52,7 +52,7 @@ return {
     --metals_config.cmd = { "cs", "launch", "tech.neader:langoustine-tracer_3:0.0.18", "--", "metals" }
     metals_config.settings = {
       defaultBspToBuildTool = true,
-      enableSemanticHighlighting = false,
+      enableSemanticHighlighting = true,
       showImplicitArguments = true,
       showImplicitConversionsAndClasses = true,
       showInferredType = true,
