@@ -1,26 +1,16 @@
 return {
   "akinsho/bufferline.nvim",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
-  version = "*",
-  opts = {
-    options = {
-      mode = "buffers",
-      buffer_close_icon = "",
-      modified_icon = "",
-      close_icon = "",
-      show_close_icon = false,
-      left_trunc_marker = "",
-      right_trunc_marker = "",
-      max_name_length = 14,
-      max_prefix_length = 13,
-      tab_size = 25,
-      show_tab_indicators = true,
-      enforce_regular_tabs = false,
-      show_buffer_close_icons = true,
-      separator_style = "thin",
-      always_show_bufferline = true,
-      diagnostics = false,
-      themable = true,
-    },
-  },
+  dependencies = {"nvim-tree/nvim-web-devicons"},
+  versions = "*",
+  config = function()
+    vim.opt.termguicolors = true
+    require("bufferline").setup{
+      options = {
+        show_buffer_icons = true
+      }
+    }
+    vim.keymap.set("n", "<leader>x", ":bp<bar>sp<bar>bn<bar>bd<CR>")
+    vim.keymap.set("n", "<leader>n", ":BufferLineCycleNext<CR>")
+    vim.keymap.set("n", "<leader>p", ":BufferLineCyclePrev<CR>")
+  end,
 }

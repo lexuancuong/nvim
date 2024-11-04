@@ -1,7 +1,7 @@
 return {
   "yetone/avante.nvim",
   event = "VeryLazy",
-  version = false, -- latest changes
+  version = false,
   build = "make",
   opts = {
     provider = "claude",
@@ -9,40 +9,37 @@ return {
     claude = {
       endpoint = "https://api.anthropic.com",
       model = "claude-3-5-sonnet-20241022",
-      temperature = 0,
-      max_tokens = 4096,
+    },
+    ui = {
+      position = "right",
+      width = 30,
+      border = "rounded",
     },
     behaviour = {
       auto_suggestions = false,
       auto_set_highlight_group = true,
       auto_set_keymaps = true,
     },
-    windows = {
-      position = "right",
-      width = 30,
+    keymaps = {
+      toggle = "<leader>aa",
+      refresh = "<leader>ar",
+      focus = "<leader>af",
+      edit = "<leader>ae",
     },
   },
-  dependencies = {
-    "nvim-treesitter/nvim-treesitter",
-    "stevearc/dressing.nvim",
-    "nvim-lua/plenary.nvim",
-    "MunifTanjim/nui.nvim",
-    "nvim-tree/nvim-web-devicons",
-    {
-      "MeanderingProgrammer/render-markdown.nvim",
-      opts = {
-        file_types = { "markdown", "Avante" },
-      },
-      ft = { "markdown", "Avante" },
-    },
-  },
-  config = function()
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "LazyDone",
-      callback = function()
-        require("avante_lib").load()
-      end,
-    })
+  config = function(_, opts)
+    local status_ok, avante = pcall(require, "avante")
+    if not status_ok then
+      print("Failed to load Avante:", avante)
+      return
+    end
+
+    status_ok, err = pcall(avante.setup, opts)
+    if not status_ok then
+      print("Failed to setup Avante:", err)
+      return
+    end
   end,
 }
-
+-- Create dir manually for full writing on it
+-- mkdir -p /Users/lexuancuong/.cache/nvim/avante
