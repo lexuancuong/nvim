@@ -3,7 +3,6 @@ return {
   dependencies = {"nvim-tree/nvim-web-devicons"},
   versions = "*",
   config = function()
-    vim.opt.termguicolors = true
     require("bufferline").setup{
       options = {
         show_buffer_icons = true
