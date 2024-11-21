@@ -50,7 +50,7 @@ return {
       border = "rounded",
     },
     behaviour = {
-      auto_suggestions = true,
+      auto_suggestions = false,
       auto_set_highlight_group = true,
       auto_set_keymaps = true,
       suggestion_context_size = 3000,
@@ -61,6 +61,8 @@ return {
       focus = "<leader>af",
       edit = "<leader>ae",
       load_project_context = "<leader>ap",
+      accept_suggestion = "<Tab>",
+      accept_suggestion_word = "<Right>",
     },
   },
   config = function(_, opts)

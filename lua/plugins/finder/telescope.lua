@@ -16,6 +16,9 @@ return {
       file_previewer = require("telescope.previewers").vim_buffer_cat.new,
       grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
       qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
+      file_ignore_patterns = {
+        "^.git/",
+      },
       layout_strategy = "horizontal",
       selection_strategy = "reset",
       sorting_strategy = "ascending",
