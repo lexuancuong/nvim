@@ -32,17 +32,20 @@ return {
       -- Make sure to set this up properly if you have lazy=true
       'MeanderingProgrammer/render-markdown.nvim',
       opts = {
-        file_types = { "markdown", "Avante" },
+        file_types = { "Avante" },
       },
-      ft = { "markdown", "Avante" },
+      ft = {"Avante" },
     },
   },
   opts = {
+    debug = false,
     provider = "claude",
     auto_suggestions_provider = "claude",
     claude = {
       endpoint = "https://api.anthropic.com",
       model = "claude-3-5-sonnet-20241022",
+    max_tokens = 8192,  -- Increase max tokens for longer responses
+    temperature = 0.7,
     },
     ui = {
       position = "right",
@@ -54,6 +57,8 @@ return {
       auto_set_highlight_group = true,
       auto_set_keymaps = true,
       suggestion_context_size = 3000,
+      suggestion_context_size = 8000,  -- Increase context size
+      chunk_size = 4096,  -- Add chunk size for better handling of large responses
     },
     keymaps = {
       toggle = "<leader>aa",

@@ -88,6 +88,125 @@ return {
     lspconfig["html"].setup({
       capabilities = capabilities,
       on_attach = on_attach,
+    filetypes = { "html", "templ" },
+    init_options = {
+      configurationSection = { "html", "css", "javascript" },
+      embeddedLanguages = {
+        css = true,
+        javascript = true,
+      },
+      provideFormatter = true,
+    },
+        })
+    
+        -- configure typescript server
+        lspconfig["tsserver"].setup({
+    capabilities = capabilities,
+    on_attach = function(client, bufnr)
+      on_attach(client, bufnr)
+      -- Enable formatting
+      client.server_capabilities.documentFormattingProvider = true
+      
+      -- Ensure typescript specific keymaps are set
+      local bufopts = { noremap=true, silent=true, buffer=bufnr }
+      vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+      vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+      vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+      vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
+    end,
+    filetypes = { 
+      "typescript", 
+      "javascript", 
+      "javascriptreact", 
+      "typescriptreact", 
+      "vue", 
+      "json" 
+    },
+    root_dir = require("lspconfig").util.root_pattern("package.json", "tsconfig.json", "jsconfig.json"),
+    settings = {
+      typescript = {
+        inlayHints = {
+          includeInlayParameterNameHints = "all",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+        },
+      },
+      javascript = {
+        inlayHints = {
+          includeInlayParameterNameHints = "all",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+        },
+      },
+    },
+        })
+    
+        -- configure css server
+        lspconfig["cssls"].setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+      css = {
+        validate = true,
+        lint = {
+          unknownAtRules = "ignore",
+        },
+      },
+      scss = {
+        validate = true,
+        lint = {
+          unknownAtRules = "ignore",
+        },
+      },
+      less = {
+        validate = true,
+        lint = {
+          unknownAtRules = "ignore",
+        },
+      },
+    },
+        })
+    
+        -- configure emmet language server
+        lspconfig["emmet_ls"].setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+    filetypes = {
+      "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte", "vue",
+    },
+        })
+    
+        -- configure tailwindcss server
+        lspconfig["tailwindcss"].setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+    filetypes = {
+      "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact",
+    },
+        })
+    
+        -- configure eslint server
+        lspconfig["eslint"].setup({
+    capabilities = capabilities,
+    on_attach = function(client, bufnr)
+      on_attach(client, bufnr)
+      -- Enable formatting
+      client.server_capabilities.documentFormattingProvider = true
+    end,
+    settings = {
+      workingDirectory = { mode = "auto" },
+      format = { enable = true },
+      lint = { enable = true },
+    },
+    root_dir = require("lspconfig").util.find_git_ancestor,
     })
 
     -- configure python server
@@ -151,3 +270,4 @@ return {
     -- end
   end,
 }
+
