@@ -13,12 +13,28 @@ return {
   opts = {
     defaults = {
       previewer = true,
-      file_ignore_patterns = { "^.git/" },
       file_previewer = require("telescope.previewers").vim_buffer_cat.new,
       grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
       qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
       file_ignore_patterns = {
         "^.git/",
+        "node_modules/",
+        "%.lock$",
+        "^dist/",
+        "^build/",
+        "^.next/",
+        "^vendor/",
+        "%.min.js$",
+        "%.min.css$",
+        "%.map$",
+        "%.png$",
+        "%.jpg$",
+        "%.jpeg$",
+        "%.webp$",
+        "%.svg$",
+        "%.pdf$",
+        "%.zip$",
+        "%.tar.gz$",
       },
       layout_strategy = "horizontal",
       selection_strategy = "reset",
@@ -51,12 +67,23 @@ return {
     pcall(telescope.load_extension, "fzf")
     telescope.load_extension("live_grep_args")
     vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers <CR>")
-    vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files no_ignore=true hidden=true<CR>")
-    -- keymap.set("n", "<leader>fa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true <CR>")
-    vim.keymap.set("n", "<leader>gs", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true <CR>")
+    vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files hidden=true<CR>")
+    vim.keymap.set("n", "<leader>fa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>")
+    vim.keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<CR>")
     vim.keymap.set("n", "<leader>gs", ":lua require('telescope.builtin').git_status()<CR>", {noremap = true, silent = true})
     vim.keymap.set("n", "<leader>fw", function()
-      require("telescope").extensions.live_grep_args.live_grep_args()
+      require("telescope").extensions.live_grep_args.live_grep_args({
+        additional_args = function()
+          return {
+            "--glob=!node_modules/*",
+            "--glob=!.git/*",
+            "--glob=!dist/*",
+            "--glob=!build/*",
+            "--glob=!.next/*",
+            "--glob=!vendor/*",
+          }
+        end
+      })
     end)
     vim.keymap.set("n", "<leader>r", ":Telescope resume <CR>")
     vim.keymap.set("n", "<leader>mt", function()
