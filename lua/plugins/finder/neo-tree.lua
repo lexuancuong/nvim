@@ -17,16 +17,9 @@ return {
       desc = "Toggle Neo-tree (cwd)",
     },
     {
-      "<C-y>",
-      function()
-        require("neo-tree.command").execute({ toggle = true, dir = vim.fn.expand("%:p:h") })
-      end,
-      desc = "Toggle Neo-tree (current file dir)",
-    },
-    {
       "<C-t>",
-      "<cmd>Neotree toggle<cr>",
-      desc = "Toggle Neo-tree",
+      "<cmd>Neotree reveal<cr>",
+      desc = "Reveal the current file in the file tree",
     },
   },
   opts = {
