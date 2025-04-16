@@ -20,8 +20,6 @@ return {
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-buffer",
     "saadparwaiz1/cmp_luasnip",
-    "zbirenbaum/copilot-cmp",
-    "zbirenbaum/copilot.lua",
   },
   config = function()
     local cmp = require("cmp")
@@ -116,44 +114,6 @@ return {
           "i",
           "s",
         }),
-      }),
-      -- sources for autocompletion
-      sources = cmp.config.sources({
-        { name = "nvim_lsp" },
-        {
-          name = "copilot",
-          -- keyword_length = 0,
-          max_item_count = 3,
-          trigger_characters = {
-            {
-              ".",
-              ":",
-              "(",
-              "'",
-              '"',
-              "[",
-              ",",
-              "#",
-              "*",
-              "@",
-              "|",
-              "=",
-              "-",
-              "{",
-              "/",
-              "\\",
-              "+",
-              "?",
-              " ",
-              "\t",
-              "\n",
-              ")",
-            },
-          },
-        },
-        { name = "luasnip" }, -- snippets
-        { name = "buffer" }, -- text within current buffer
-        { name = "path" }, -- file system paths
       }),
     })
   end,
