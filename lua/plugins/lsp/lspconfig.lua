@@ -99,8 +99,10 @@ return {
     },
         })
     
-        -- configure typescript server
-        lspconfig["tsserver"].setup({
+    -- configure typescript server
+    -- PLEASE BE AWARE THAT THE TYPESCRIPT SERVER CANNOT BE WORK WITH CTRL - O IN NEOVIM
+    -- MUST OPEN FILE FROM TELESCOPE OR NEOTREE
+        lspconfig.ts_ls.setup({
     capabilities = capabilities,
     on_attach = function(client, bufnr)
       on_attach(client, bufnr)
