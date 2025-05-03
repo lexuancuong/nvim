@@ -10,14 +10,14 @@ return {
   cmd = "Neotree",
   keys = {
     {
-      "<C-n>",
+      "<C-t>",
       function()
         require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
       end,
       desc = "Toggle Neo-tree (cwd)",
     },
     {
-      "<C-t>",
+      "<C-n>",
       "<cmd>Neotree reveal<cr>",
       desc = "Reveal the current file in the file tree",
     },
