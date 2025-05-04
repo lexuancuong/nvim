@@ -9,17 +9,17 @@ return {
   },
   cmd = "Neotree",
   keys = {
+    -- {
+    --   "<leader>e",
+    --   function()
+    --     require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
+    --   end,
+    --   desc = "Toggle Neo-tree (cwd)",
+    -- },
     {
-      "<C-t>",
-      function()
-        require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
-      end,
-      desc = "Toggle Neo-tree (cwd)",
-    },
-    {
-      "<C-n>",
+      "<leader>e",
       "<cmd>Neotree reveal<cr>",
-      desc = "Reveal the current file in the file tree",
+      desc = "Reveal current file in Neo-tree",
     },
   },
   opts = {
@@ -55,6 +55,7 @@ return {
       height = 20,
       mappings = {
         ["<space>"] = "none",
+        ["<C-v>"] = "open_vsplit",
       },
       float = {
         enable = true,

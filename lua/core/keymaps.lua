@@ -13,6 +13,13 @@ vim.keymap.set("i", "<C-j>", "<Down>")
 vim.keymap.set("i", "<C-k>", "<Up>")
 vim.keymap.set("i", "<C-a>", "<ESC>^i")
 
+
+-- Recommended for Colemak (avoiding Ctrl+i, since it's Tab)
+vim.keymap.set("n", "<C-h>", "<C-w>h", { noremap = true, silent = true }) -- down
+vim.keymap.set("n", "<C-n>", "<C-w>j", { noremap = true, silent = true }) -- down
+vim.keymap.set("n", "<C-e>", "<C-w>k", { noremap = true, silent = true }) -- up
+vim.keymap.set("n", "<C-i>", "<C-w>l", { noremap = true, silent = true }) -- right
+
 -- better indenting
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
