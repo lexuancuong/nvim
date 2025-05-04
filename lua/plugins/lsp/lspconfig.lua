@@ -8,37 +8,64 @@ return {
   config = function()
     local lspconfig = require("lspconfig")
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
-    local keymap = vim.keymap -- for conciseness
-    vim.lsp.set_log_level("debug")
+    
+    -- Initialize capabilities with nvim-cmp integration
+    local capabilities = cmp_nvim_lsp.default_capabilities()
+    capabilities.textDocument.completion.completionItem = {
+      documentationFormat = { "markdown", "plaintext" },
+      snippetSupport = true,
+      preselectSupport = true,
+      insertReplaceSupport = true,
+      labelDetailsSupport = true,
+      deprecatedSupport = true,
+      commitCharactersSupport = true,
+      tagSupport = { valueSet = { 1 } },
+      resolveSupport = {
+        properties = {
+          "documentation",
+          "detail",
+          "additionalTextEdits",
+        },
+      },
+    }
 
-    local opts = { noremap = true, silent = true }
-    local on_attach = function(client, bufnr)
-      opts.buffer = bufnr
-
-      -- set keybinds
-      -- opts.desc = "Show LSP references"
-      -- keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
-      -- Important to show function from LSP diagnostic
+    -- LSP Attach Keybindings
+    local function on_attach(client, bufnr)
+      local opts = { noremap = true, silent = true, buffer = bufnr }
+      
+      -- Enable navic (breadcrumbs) if available
       if client.supports_method("textDocument/documentSymbol") and client.name ~= "bashls" then
         require("nvim-navic").attach(client, bufnr)
       end
-      keymap.set("n", "gd", vim.lsp.buf.declaration, opts)
-      keymap.set("n", "gD", vim.lsp.buf.definition)
-      keymap.set("n", "ge", "<cmd>lua vim.diagnostic.open_float(nil, { focus = false })<CR>")
-      keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
-      keymap.set("n", "<leader>cl", vim.lsp.codelens.run)
-      keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>") -- show lsp implementations
-      keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>") -- show lsp type definitions
-      keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action) -- see available code actions, in visual mode will apply to selection
-      keymap.set("n", "<leader>rn", vim.lsp.buf.rename) -- smart rename
-      keymap.set("n", "K", vim.lsp.buf.hover) -- show documentation for what is under cursor
 
-      opts.desc = "Restart LSP"
-      keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+      -- Navigation
+      vim.keymap.set("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", opts, { desc = "Go to definition" }))
+      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, vim.tbl_extend("force", opts, { desc = "Go to declaration" }))
+      vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", vim.tbl_extend("force", opts, { desc = "Go to implementation" }))
+      vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", vim.tbl_extend("force", opts, { desc = "Go to references" }))
+      vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", vim.tbl_extend("force", opts, { desc = "Go to type definition" }))
+      
+      -- Workspace management
+      vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, vim.tbl_extend("force", opts, { desc = "Add workspace folder" }))
+      vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, vim.tbl_extend("force", opts, { desc = "Remove workspace folder" }))
+      vim.keymap.set("n", "<leader>wl", function()
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+      end, vim.tbl_extend("force", opts, { desc = "List workspace folders" }))
+      
+      -- Actions
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Show hover documentation" }))
+      vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code actions" }))
+      vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
+      vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.run, vim.tbl_extend("force", opts, { desc = "Run codelens" }))
+      
+      -- Diagnostics
+      vim.keymap.set("n", "ge", vim.diagnostic.open_float, vim.tbl_extend("force", opts, { desc = "Show diagnostics" }))
+      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, vim.tbl_extend("force", opts, { desc = "Previous diagnostic" }))
+      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
+      
+      -- LSP Management
+      vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", vim.tbl_extend("force", opts, { desc = "Restart LSP" }))
     end
-
-    -- used to enable autocompletion (assign to every lsp server config)
-    local capabilities = cmp_nvim_lsp.default_capabilities()
     --================================
     -- Metals specific setup
     --================================
@@ -58,14 +85,11 @@ return {
       showInferredType = true,
       serverVersion = "latest.snapshot",
     }
-
     metals_config.init_options = {
       statusBarProvider = "on",
       icons = "unicode"
     }
-
     metals_config.capabilities = capabilities
-
     metals_config.on_attach = function(client, bufnr)
       on_attach(client, bufnr)
 
@@ -83,152 +107,75 @@ return {
       end,
       group = nvim_metals_group,
     })
+    --end metals setup
 
-    -- configure html server
-    lspconfig["html"].setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    filetypes = { "html", "templ" },
-    init_options = {
-      configurationSection = { "html", "css", "javascript" },
-      embeddedLanguages = {
-        css = true,
-        javascript = true,
-      },
-      provideFormatter = true,
-    },
-        })
-    
-    -- configure typescript server
-    -- PLEASE BE AWARE THAT THE TYPESCRIPT SERVER CANNOT BE WORK WITH CTRL - O IN NEOVIM
-    -- MUST OPEN FILE FROM TELESCOPE OR NEOTREE
-        lspconfig.ts_ls.setup({
-    capabilities = capabilities,
-    on_attach = function(client, bufnr)
-      on_attach(client, bufnr)
-      -- Enable formatting
-      client.server_capabilities.documentFormattingProvider = true
-      
-      -- Ensure typescript specific keymaps are set
-      local bufopts = { noremap=true, silent=true, buffer=bufnr }
-      vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-      vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-      vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-      vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
-    end,
-    filetypes = { 
-      "typescript", 
-      "javascript", 
-      "javascriptreact", 
-      "typescriptreact", 
-      "vue", 
-      "json" 
-    },
-    root_dir = require("lspconfig").util.root_pattern("package.json", "tsconfig.json", "jsconfig.json"),
-    settings = {
-      typescript = {
-        inlayHints = {
-          includeInlayParameterNameHints = "all",
-          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-          includeInlayFunctionParameterTypeHints = true,
-          includeInlayVariableTypeHints = true,
-          includeInlayPropertyDeclarationTypeHints = true,
-          includeInlayFunctionLikeReturnTypeHints = true,
-          includeInlayEnumMemberValueHints = true,
-        },
-      },
-      javascript = {
-        inlayHints = {
-          includeInlayParameterNameHints = "all",
-          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-          includeInlayFunctionParameterTypeHints = true,
-          includeInlayVariableTypeHints = true,
-          includeInlayPropertyDeclarationTypeHints = true,
-          includeInlayFunctionLikeReturnTypeHints = true,
-          includeInlayEnumMemberValueHints = true,
-        },
-      },
-    },
-        })
-    
-        -- configure css server
-        lspconfig["cssls"].setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-    settings = {
-      css = {
-        validate = true,
-        lint = {
-          unknownAtRules = "ignore",
-        },
-      },
-      scss = {
-        validate = true,
-        lint = {
-          unknownAtRules = "ignore",
-        },
-      },
-      less = {
-        validate = true,
-        lint = {
-          unknownAtRules = "ignore",
-        },
-      },
-    },
-        })
-    
-        -- configure emmet language server
-        lspconfig["emmet_ls"].setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-    filetypes = {
-      "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte", "vue",
-    },
-        })
-    
-        -- configure tailwindcss server
-        lspconfig["tailwindcss"].setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-    filetypes = {
-      "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact",
-    },
-        })
-    
-        -- configure eslint server
-        lspconfig["eslint"].setup({
-    capabilities = capabilities,
-    on_attach = function(client, bufnr)
-      on_attach(client, bufnr)
-      -- Enable formatting
-      client.server_capabilities.documentFormattingProvider = true
-    end,
-    settings = {
-      workingDirectory = { mode = "auto" },
-      format = { enable = true },
-      lint = { enable = true },
-    },
-    root_dir = require("lspconfig").util.find_git_ancestor,
-    })
-
-    -- configure python server
+    -- Python configuration
     lspconfig["pyright"].setup({
       capabilities = capabilities,
       on_attach = on_attach,
       settings = {
         pyright = {
           autoImportCompletion = true,
+          typeCheckingMode = "basic",
         },
         python = {
           analysis = {
             autoSearchPaths = true,
-            diagnosticMode = "openFilesOnly", -- Important to avoid analysing from third-party/python codes
+            diagnosticMode = "workspace",
             useLibraryCodeForTypes = true,
-            -- This one is extremely important to show error diagnostics. Without it, only warnings and info are shown
-            typeCheckingMode = "on",
+            typeCheckingMode = "basic",
+            inlayHints = {
+              variableTypes = true,
+              functionReturnTypes = true,
+            },
           },
         },
       },
+    })
+
+    -- TypeScript/JavaScript configuration
+    lspconfig["tsserver"].setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      settings = {
+        typescript = {
+          inlayHints = {
+            includeInlayParameterNameHints = "all",
+            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayVariableTypeHints = true,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayFunctionLikeReturnTypeHints = true,
+            includeInlayEnumMemberValueHints = true,
+          },
+        },
+        javascript = {
+          inlayHints = {
+            includeInlayParameterNameHints = "all",
+            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayVariableTypeHints = true,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayFunctionLikeReturnTypeHints = true,
+            includeInlayEnumMemberValueHints = true,
+          },
+        },
+      },
+    })
+
+    -- ESLint configuration
+    lspconfig["eslint"].setup({
+      capabilities = capabilities,
+      on_attach = function(client, bufnr)
+        on_attach(client, bufnr)
+        -- Enable formatting
+        client.server_capabilities.documentFormattingProvider = true
+        -- Format on save
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          buffer = bufnr,
+          command = "EslintFixAll",
+        })
+      end,
     })
 
     -- Diagnostic settings:
