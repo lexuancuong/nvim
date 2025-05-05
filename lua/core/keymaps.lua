@@ -5,15 +5,6 @@ vim.g.mapleader = " "
 -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
 vim.keymap.set("v", "p", 'p:let @+=@0<CR>:let @"=@0<CR>', { silent = true })
 
--- move cursor within insert mode
-vim.keymap.set("i", "<C-h>", "<Left>")
-vim.keymap.set("i", "<C-e>", "<End>")
-vim.keymap.set("i", "<C-l>", "<Right>")
-vim.keymap.set("i", "<C-j>", "<Down>")
-vim.keymap.set("i", "<C-k>", "<Up>")
-vim.keymap.set("i", "<C-a>", "<ESC>^i")
-
-
 -- Recommended for Colemak (avoiding Ctrl+i, since it's Tab)
 vim.keymap.set("n", "<C-h>", "<C-w>h", { noremap = true, silent = true }) -- down
 vim.keymap.set("n", "<C-n>", "<C-w>j", { noremap = true, silent = true }) -- down
@@ -25,9 +16,6 @@ vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 
 -- Common stuff
-vim.keymap.set("n", "<C-c>", "<cmd> :%y+ <CR>") -- copy whole file content
-vim.keymap.set("n", "<S-t>", "<cmd> :enew <CR>") -- new buffer
-vim.keymap.set("n", "<C-t>b", "<cmd> :tabnew <CR>") -- new tabs
 -- vim.keymap.set('n', '<leader>l', '<cmd> :set nu! <CR>')
 vim.keymap.set("n", "<leader>rl", "<cmd> :set rnu! <CR>") -- relative line numbers
 
