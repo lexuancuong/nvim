@@ -117,6 +117,8 @@ return {
         pyright = {
           autoImportCompletion = true,
           typeCheckingMode = "basic",
+          disableLanguageServices = false,
+          disableOrganizeImports = false,
         },
         python = {
           analysis = {
@@ -124,6 +126,24 @@ return {
             diagnosticMode = "workspace",
             useLibraryCodeForTypes = true,
             typeCheckingMode = "basic",
+            indexing = false, -- Disable indexing of library files
+            autoImportCompletions = true,
+            stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs",
+            typeshedPaths = {},
+            exclude = {
+              "**/node_modules",
+              "**/__pycache__",
+              "**/.*",
+              "**/site-packages",
+              "**/dist-packages",
+            },
+            ignore = {
+              "**/site-packages/**",
+              "**/dist-packages/**",
+              "**/.venv/**",
+              "**/venv/**",
+              "**/env/**",
+            },
             inlayHints = {
               variableTypes = true,
               functionReturnTypes = true,

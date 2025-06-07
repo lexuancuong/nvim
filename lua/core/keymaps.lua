@@ -6,10 +6,10 @@ vim.g.mapleader = " "
 vim.keymap.set("v", "p", 'p:let @+=@0<CR>:let @"=@0<CR>', { silent = true })
 
 -- Recommended for Colemak (avoiding Ctrl+i, since it's Tab)
-vim.keymap.set("n", "<C-h>", "<C-w>h", { noremap = true, silent = true }) -- down
-vim.keymap.set("n", "<C-n>", "<C-w>j", { noremap = true, silent = true }) -- down
-vim.keymap.set("n", "<C-e>", "<C-w>k", { noremap = true, silent = true }) -- up
-vim.keymap.set("n", "<C-i>", "<C-w>l", { noremap = true, silent = true }) -- right
+vim.keymap.set("n", "<C-w>h", "<C-w>h", { noremap = true, silent = true }) -- down
+vim.keymap.set("n", "<C-w>n", "<C-w>j", { noremap = true, silent = true }) -- down
+vim.keymap.set("n", "<C-w>e", "<C-w>k", { noremap = true, silent = true }) -- up
+vim.keymap.set("n", "<C-w>i", "<C-w>l", { noremap = true, silent = true }) -- right
 
 -- better indenting
 vim.keymap.set("v", "<", "<gv")
