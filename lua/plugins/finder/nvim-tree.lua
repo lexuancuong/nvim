@@ -56,16 +56,13 @@ return {
       },
     },
     filters = {
-      dotfiles = false,
-      git_ignored = false,
-      custom = {
+      exclude = {
         ".git",
         "node_modules",
         ".next",
         "dist",
         "build",
         "vendor",
-        ".DS_Store",
       },
     },
     update_focused_file = {
