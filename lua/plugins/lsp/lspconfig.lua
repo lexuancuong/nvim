@@ -123,7 +123,7 @@ return {
         python = {
           analysis = {
             autoSearchPaths = true,
-            diagnosticMode = "workspace",
+            diagnosticMode = "openFilesOnly", -- Important to avoid analysing from third-party/python codes
             useLibraryCodeForTypes = true,
             typeCheckingMode = "basic",
             indexing = false, -- Disable indexing of library files
