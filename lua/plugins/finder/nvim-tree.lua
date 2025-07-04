@@ -56,14 +56,11 @@ return {
       },
     },
     filters = {
-      exclude = {
-        ".git",
-        "node_modules",
-        ".next",
-        "dist",
-        "build",
-        "vendor",
-      },
+      git_ignored = false, -- Show git ignored files
+      dotfiles = true,    -- Show dotfiles
+      git_clean = false,  -- Show untracked files
+      no_buffer = false,  -- Show files currently open in nvim
+      exclude = {},       -- No exclusions
     },
     update_focused_file = {
       enable = true,
