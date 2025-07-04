@@ -23,13 +23,13 @@ end
 
 return {
   "nvim-lualine/lualine.nvim",
-  dependencies = { "neovim/nvim-lspconfig", "SmiteshP/nvim-navic", "folke/tokyonight.nvim" },
+  dependencies = { "neovim/nvim-lspconfig", "SmiteshP/nvim-navic"},
   config = function()
     vim.cmd("au User LspProgressUpdate let &ro = &ro")
     lualine = require("lualine")
     lualine.setup({
       options = {
-        theme = "tokyonight",
+        theme = "auto",
         section_separators = { left = "", right = "" },
         component_separators = { left = "", right = "" },
         icons_enabled = true,
