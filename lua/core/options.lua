@@ -49,9 +49,9 @@ opt.updatetime = 250
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
 opt.whichwrap:append("<>[]hl")
-opt.foldmethod = 'expr'                                -- enable folding (default 'foldmarker')
-opt.foldlevel = 9999                                     -- open a file fully expanded, set to 
-vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+opt.foldlevel = 99        -- Needed to show folds as open
+opt.foldlevelstart = 99   -- When opening a buffer, start unfolded
+opt.foldenable = true     -- Enable folding
 
 opt.fixendofline = true  -- Ensure Neovim does not strip the final newline
 opt.endofline = true    -- Ensure each file ends with a newline
