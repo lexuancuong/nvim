@@ -221,22 +221,10 @@ return {
       local hl = "DiagnosticSign" .. name
       vim.fn.sign_define(hl, { text = icon, numhl = hl, texthl = hl })
     end
-    lspSymbol("Error", "")
-    lspSymbol("Info", "")
-    lspSymbol("Hint", "")
+    lspSymbol("Error", "󰅚")
+    lspSymbol("Info", "󰋽")
+    lspSymbol("Hint", "󰌶")
     lspSymbol("Warn", "")
-
-    -- -- suppress error messages from lang servers, redundant?
-    -- vim.notify = function(msg, log_level)
-    --   if msg:match("exit code") then
-    --     return
-    --   end
-    --   if log_level == vim.log.levels.ERROR then
-    --     vim.api.nvim_err_writeln(msg)
-    --   else
-    --     vim.api.nvim_echo({ { msg } }, true, {})
-    --   end
-    -- end
   end,
 }
 
